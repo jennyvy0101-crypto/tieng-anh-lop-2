@@ -2,6 +2,9 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+<!-- This site is hosted on Netlify. Anyone can build and deploy a site
+     like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=2ac67204-e2ba-49bd-8a0c-e30e202d6f96
+     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kids English Explorer - Global Success Grade 2</title>
     <!-- Tailwind CSS -->
@@ -17,123 +20,2030 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
-        /* Thanh cuộn mượt mà */
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
-<body class="bg-gradient-to-br from-indigo-950 via-slate-900 to-sky-950 min-h-screen flex items-center justify-center p-0 sm:p-4 text-slate-800">
+<body class="bg-sky-100 font-sans text-slate-800">
+    <div id="root"></div>
 
-    <!-- CONTAINER TỰ ĐỘNG RESPONSIVE (MÁY TÍNH HIỆN KHUNG ĐIỆN THOẠI, ĐIỆN THOẠI HIỆN FULL MÀN HÌNH) -->
-    <div class="w-full h-screen sm:h-[845px] sm:max-w-[414px] bg-sky-100 sm:rounded-[45px] sm:shadow-2xl sm:border-[8px] sm:border-slate-800 flex flex-col relative overflow-hidden">
-        
-        <!-- Tai thỏ / Dynamic Island (Chỉ xuất hiện trên máy tính / màn hình lớn) -->
-        <div class="hidden sm:flex absolute top-2.5 left-1/2 -translate-x-1/2 w-32 h-5 bg-black rounded-full z-50 items-center justify-center pointer-events-none">
-            <div class="w-2.5 h-2.5 bg-slate-800 rounded-full mr-2"></div>
-            <div class="w-10 h-1 bg-slate-800 rounded-full"></div>
-        </div>
-
-        <!-- MÀN HÌNH ỨNG DỤNG BÊN TRONG -->
-        <div id="root" class="w-full h-full flex flex-col overflow-y-auto"></div>
-    </div>
-
-    <!-- REACT APP CODE -->
     <script type="text/babel">
-        const { useState } = React;
+        const { useState, useEffect, useRef } = React;
 
-        const GLOBAL_SUCCESS_TOPICS = [          
-          {            
-            id: 'gs_u1',            
-            title: 'Unit 1: At My Birthday Party',            
-            subtitle: 'Bữa Tiệc Sinh Nhật 🎉',            
-            icon: '🎂',            
-            color: 'from-pink-500 to-rose-600',            
-            borderColor: 'border-pink-300',            
-            lesson: {              
-              summary: "Phonics: p | Từ vựng: pasta, popcorn, pizza | Mẫu câu: The popcorn is yummy.",              
-              keyGrammar: "The popcorn is yummy.",            
-            },            
-            vocab: [              
-              { id: 'u1_1', word: 'Pasta', sound: '/ˈpæstə/', vn: 'Mì ống', icon: '🍝' },              
-              { id: 'u1_2', word: 'Popcorn', sound: '/ˈpɒpkɔːrn/', vn: 'Bỏng ngô', icon: '🍿' },              
-              { id: 'u1_3', word: 'Pizza', sound: '/ˈpiːtsə/', vn: 'Bánh pizza', icon: '🍕' }            ]          },          
-          {            
-            id: 'gs_u2',            
-            title: 'Unit 2: In The Backyard',            
-            subtitle: 'Khu Vườn Sau Nhà 🌳',            
-            icon: '🏡',            
-            color: 'from-emerald-500 to-teal-700',            
-            borderColor: 'border-emerald-300',            
-            lesson: {              
-              summary: "Phonics: k | Từ vựng: kite, bike, kitten | Mẫu câu: Is she flying a kite? - Yes, she is.",              
-              keyGrammar: "Is she flying a kite? - Yes, she is.",            
-            },            
-            vocab: [              
-              { id: 'u2_1', word: 'Kite', sound: '/kaɪt/', vn: 'Cái diều', icon: '🪁' },              
-              { id: 'u2_2', word: 'Bike', sound: '/baɪk/', vn: 'Xe đạp', icon: '🚲' },              
-              { id: 'u2_3', word: 'Kitten', sound: '/ˈkɪtn/', vn: 'Mèo con', icon: '🐱' }            ]          },
-          {            
-            id: 'gs_u3',            
-            title: 'Unit 3: At The Seaside',            
-            subtitle: 'Bờ Biển Xanh Mát 🏖️',            
-            icon: '🌊',            
-            color: 'from-sky-400 to-blue-600',            
-            borderColor: 'border-sky-300',            
-            lesson: {              
-              summary: "Phonics: s | Từ vựng: sail, sand, sea | Mẫu câu: Let's look at the sea!",              
-              keyGrammar: "Let's look at the sea!",            
-            },            
-            vocab: [              
-              { id: 'u3_1', word: 'Sail', sound: '/seɪl/', vn: 'Cánh buồm', icon: '⛵' },              
-              { id: 'u3_2', word: 'Sand', sound: '/sænd/', vn: 'Bãi cát', icon: '🏖️' },              
-              { id: 'u3_3', word: 'Sea', sound: '/siː/', vn: 'Biển', icon: '🌊' }            ]          }
+        // --- GLOBAL SUCCESS GRADE 2 CURRICULUM TOPICS (OFFICIAL BOOK MAP) ---
+        const GLOBAL_SUCCESS_TOPICS = [
+          {
+            id: 'gs_u1',
+            title: 'Unit 1: At My Birthday Party',
+            subtitle: 'Bữa Tiệc Sinh Nhật 🎉',
+            icon: '🎂',
+            color: 'from-pink-500 to-rose-600',
+            borderColor: 'border-pink-300',
+            lesson: {
+              summary: "Phonics: p | Từ vựng: pasta, popcorn, pizza | Mẫu câu: The popcorn is yummy.",
+              keyGrammar: "The popcorn is yummy.",
+              sampleSentences: [
+                { en: "The popcorn is yummy.", vn: "Bỏng ngô rất ngon.", audio: "The popcorn is yummy." },
+                { en: "I like pizza and pasta.", vn: "Tớ thích pizza và mì ống.", audio: "I like pizza and pasta." }
+              ]
+            },
+            vocab: [
+              { id: 'u1_1', word: 'Pasta', sound: '/ˈpæstə/', vn: 'Mì ống', icon: '🍝' },
+              { id: 'u1_2', word: 'Popcorn', sound: '/ˈpɒpkɔːrn/', vn: 'Bỏng ngô', icon: '🍿' },
+              { id: 'u1_3', word: 'Pizza', sound: '/ˈpiːtsə/', vn: 'Bánh pizza', icon: '🍕' }
+            ],
+            dialogue: {
+              avatar: '🎂',
+              title: 'Bữa Tiệc Sinh Nhật',
+              steps: [
+                {
+                  botText: "Do you like the popcorn?",
+                  botVn: "Bé có thích bỏng ngô không?",
+                  targetPhrase: "Yes the popcorn is yummy",
+                  targetVn: "Có, bỏng ngô rất ngon!"
+                }
+              ]
+            },
+            sentenceQuiz: [
+              { id: 'sq1', fullSentence: "The popcorn is yummy", vn: "Bỏng ngô rất ngon", words: ["The", "popcorn", "is", "yummy"] }
+            ]
+          },
+          {
+            id: 'gs_u2',
+            title: 'Unit 2: In The Backyard',
+            subtitle: 'Khu Vườn Sau Nhà 🌳',
+            icon: '🏡',
+            color: 'from-emerald-500 to-teal-700',
+            borderColor: 'border-emerald-300',
+            lesson: {
+              summary: "Phonics: k | Từ vựng: kite, bike, kitten | Mẫu câu: Is she flying a kite? - Yes, she is. / No, she isn't.",
+              keyGrammar: "Is she flying a kite? - Yes, she is. / No, she isn't.",
+              sampleSentences: [
+                { en: "Is she flying a kite?", vn: "Cậu ấy đang thả diều phải không?", audio: "Is she flying a kite?" },
+                { en: "Yes, she is. No, she isn't.", vn: "Đúng vậy. / Không phải.", audio: "Yes, she is. No, she isn't." }
+              ]
+            },
+            vocab: [
+              { id: 'u2_1', word: 'Kite', sound: '/kaɪt/', vn: 'Cái diều', icon: '🪁' },
+              { id: 'u2_2', word: 'Bike', sound: '/baɪk/', vn: 'Xe đạp', icon: '🚲' },
+              { id: 'u2_3', word: 'Kitten', sound: '/ˈkɪtn/', vn: 'Mèo con', icon: '🐱' }
+            ],
+            dialogue: {
+              avatar: '🪁',
+              title: 'Sân Sau Nhà',
+              steps: [
+                {
+                  botText: "Is she flying a kite?",
+                  botVn: "Cậu ấy đang thả diều phải không?",
+                  targetPhrase: "Yes she is",
+                  targetVn: "Vâng, đúng vậy!"
+                }
+              ]
+            },
+            sentenceQuiz: [
+              { id: 'sq2', fullSentence: "Is she flying a kite", vn: "Cậu ấy đang thả diều phải không", words: ["Is", "she", "flying", "a", "kite"] }
+            ]
+          },
+          {
+            id: 'gs_u3',
+            title: 'Unit 3: At The Seaside',
+            subtitle: 'Bờ Biển Xanh Mát 🏖️',
+            icon: '🌊',
+            color: 'from-sky-400 to-blue-600',
+            borderColor: 'border-sky-300',
+            lesson: {
+              summary: "Phonics: s | Từ vựng: sail, sand, sea | Mẫu câu: Let's look at the sea!",
+              keyGrammar: "Let's look at the sea!",
+              sampleSentences: [
+                { en: "Let's look at the sea!", vn: "Hãy cùng nhìn ra biển nào!", audio: "Let's look at the sea!" }
+              ]
+            },
+            vocab: [
+              { id: 'u3_1', word: 'Sail', sound: '/seɪl/', vn: 'Cánh buồm', icon: '⛵' },
+              { id: 'u3_2', word: 'Sand', sound: '/sænd/', vn: 'Bãi cát', icon: '🏖️' },
+              { id: 'u3_3', word: 'Sea', sound: '/siː/', vn: 'Biển', icon: '🌊' }
+            ],
+            dialogue: {
+              avatar: '🏖️',
+              title: 'Bờ Biển',
+              steps: [
+                {
+                  botText: "Let's look at the sea!",
+                  botVn: "Hãy cùng nhìn ra biển nào!",
+                  targetPhrase: "Let us look at the sea",
+                  targetVn: "Cùng nhìn ra biển nào!"
+                }
+              ]
+            },
+            sentenceQuiz: [
+              { id: 'sq3', fullSentence: "Let us look at the sea", vn: "Cùng nhìn ra biển nào", words: ["Let", "us", "look", "at", "the", "sea"] }
+            ]
+          },
+          {
+            id: 'gs_u4',
+            title: 'Unit 4: In The Countryside',
+            subtitle: 'Vùng Quê Yên Bình 🌾',
+            icon: '🚜',
+            color: 'from-amber-500 to-orange-600',
+            borderColor: 'border-amber-300',
+            lesson: {
+              summary: "Phonics: r | Từ vựng: rainbow, river, road | Mẫu câu: What can you see? - I can see a rainbow.",
+              keyGrammar: "What can you see? - I can see a rainbow.",
+              sampleSentences: [
+                { en: "What can you see?", vn: "Bé nhìn thấy gì?", audio: "What can you see?" },
+                { en: "I can see a rainbow.", vn: "Tớ có thể nhìn thấy một chiếc cầu vồng.", audio: "I can see a rainbow." }
+              ]
+            },
+            vocab: [
+              { id: 'u4_1', word: 'Rainbow', sound: '/ˈreɪnbəʊ/', vn: 'Cầu vồng', icon: '🌈' },
+              { id: 'u4_2', word: 'River', sound: '/ˈrɪvər/', vn: 'Dòng sông', icon: '🌊' },
+              { id: 'u4_3', word: 'Road', sound: '/rəʊd/', vn: 'Con đường', icon: '🛣️' }
+            ],
+            dialogue: {
+              avatar: '🚜',
+              title: 'Vùng Quê',
+              steps: [
+                {
+                  botText: "What can you see?",
+                  botVn: "Bé nhìn thấy gì?",
+                  targetPhrase: "I can see a rainbow",
+                  targetVn: "Tớ thấy cầu vồng!"
+                }
+              ]
+            },
+            sentenceQuiz: [
+              { id: 'sq4', fullSentence: "I can see a rainbow", vn: "Tớ có thể thấy cầu vồng", words: ["I", "can", "see", "a", "rainbow"] }
+            ]
+          },
+          {
+            id: 'gs_u5',
+            title: 'Unit 5: In The Classroom',
+            subtitle: 'Trong Lớp Học 🏫',
+            icon: '📚',
+            color: 'from-indigo-500 to-purple-700',
+            borderColor: 'border-indigo-300',
+            lesson: {
+              summary: "Phonics: q | Từ vựng: question, square, quiz | Mẫu câu: What's he doing? - He's doing a quiz.",
+              keyGrammar: "What's he doing? - He's doing a quiz.",
+              sampleSentences: [
+                { en: "What's he doing?", vn: "Cậu ấy đang làm gì thế?", audio: "What's he doing?" },
+                { en: "He's doing a quiz.", vn: "Cậu ấy đang làm bài đố vui.", audio: "He's doing a quiz." }
+              ]
+            },
+            vocab: [
+              { id: 'u5_1', word: 'Question', sound: '/ˈkwestʃən/', vn: 'Câu hỏi', icon: '❓' },
+              { id: 'u5_2', word: 'Square', sound: '/skweə(r)/', vn: 'Hình vuông', icon: '🟦' },
+              { id: 'u5_3', word: 'Quiz', sound: '/kwɪz/', vn: 'Đố vui', icon: '📝' }
+            ],
+            dialogue: {
+              avatar: '📚',
+              title: 'Lớp Học',
+              steps: [
+                {
+                  botText: "What's he doing?",
+                  botVn: "Cậu ấy đang làm gì?",
+                  targetPhrase: "He is doing a quiz",
+                  targetVn: "Cậu ấy đang làm bài đố vui!"
+                }
+              ]
+            },
+            sentenceQuiz: [
+              { id: 'sq5', fullSentence: "He is doing a quiz", vn: "Cậu ấy đang làm bài đố vui", words: ["He", "is", "doing", "a", "quiz"] }
+            ]
+          },
+          {
+            id: 'gs_u6',
+            title: 'Unit 6: On The Farm',
+            subtitle: 'Nông Trại Vui Nhộn 🐷',
+            icon: '🦊',
+            color: 'from-orange-400 to-amber-600',
+            borderColor: 'border-orange-300',
+            lesson: {
+              summary: "Phonics: x | Từ vựng: box, fox, ox | Mẫu câu: Is there a fox? - Yes, there is. / No, there isn't.",
+              keyGrammar: "Is there a fox? - Yes, there is. / No, there isn't.",
+              sampleSentences: [
+                { en: "Is there a fox?", vn: "Có con cáo nào không?", audio: "Is there a fox?" },
+                { en: "Yes, there is. No, there isn't.", vn: "Có. / Không có.", audio: "Yes, there is. No, there isn't." }
+              ]
+            },
+            vocab: [
+              { id: 'u6_1', word: 'Box', sound: '/bɒks/', vn: 'Cái hộp', icon: '📦' },
+              { id: 'u6_2', word: 'Fox', sound: '/fɒks/', vn: 'Con cáo', icon: '🦊' },
+              { id: 'u6_3', word: 'Ox', sound: '/ɒks/', vn: 'Con bò tót', icon: '🐂' }
+            ],
+            dialogue: {
+              avatar: '🦊',
+              title: 'Nông Trại',
+              steps: [
+                {
+                  botText: "Is there a fox?",
+                  botVn: "Có con cáo nào không?",
+                  targetPhrase: "Yes there is",
+                  targetVn: "Vâng, có đấy!"
+                }
+              ]
+            },
+            sentenceQuiz: [
+              { id: 'sq6', fullSentence: "Is there a fox on the farm", vn: "Có con cáo nào ở nông trại không", words: ["Is", "there", "a", "fox", "on", "the", "farm"] }
+            ]
+          },
+          {
+            id: 'gs_u7',
+            title: 'Unit 7: In The Kitchen',
+            subtitle: 'Trong Căn Bếp Nhỏ 🍳',
+            icon: '🥣',
+            color: 'from-rose-500 to-pink-700',
+            borderColor: 'border-rose-300',
+            lesson: {
+              summary: "Phonics: j | Từ vựng: juice, jelly, jam | Mẫu câu: Pass me the jam, please. - Here you are.",
+              keyGrammar: "Pass me the jam, please. - Here you are.",
+              sampleSentences: [
+                { en: "Pass me the jam, please.", vn: "Làm ơn chuyển giúp tớ hũ mứt nhé.", audio: "Pass me the jam, please." },
+                { en: "Here you are.", vn: "Của bạn đây.", audio: "Here you are." }
+              ]
+            },
+            vocab: [
+              { id: 'u7_1', word: 'Juice', sound: '/dʒuːs/', vn: 'Nước ép', icon: '🧃' },
+              { id: 'u7_2', word: 'Jelly', sound: '/ˈdʒeli/', vn: 'Thạch', icon: '🍮' },
+              { id: 'u7_3', word: 'Jam', sound: '/dʒæm/', vn: 'Mứt', icon: '🍯' }
+            ],
+            dialogue: {
+              avatar: '🥣',
+              title: 'Nhà Bếp',
+              steps: [
+                {
+                  botText: "Pass me the jam, please.",
+                  botVn: "Làm ơn chuyển giúp tớ hũ mứt nhé.",
+                  targetPhrase: "Here you are",
+                  targetVn: "Của bạn đây!"
+                }
+              ]
+            },
+            sentenceQuiz: [
+              { id: 'sq7', fullSentence: "Pass me the jam please", vn: "Làm ơn chuyển giúp tớ hũ mứt", words: ["Pass", "me", "the", "jam", "please"] }
+            ]
+          },
+          {
+            id: 'gs_u8',
+            title: 'Unit 8: In The Village',
+            subtitle: 'Ngôi Làng Bình Dị 🏡',
+            icon: '🚐',
+            color: 'from-purple-500 to-indigo-600',
+            borderColor: 'border-purple-300',
+            lesson: {
+              summary: "Phonics: v | Từ vựng: village, van, volleyball | Mẫu câu: Can you draw a van? - Yes, I can./No, I can't.",
+              keyGrammar: "Can you draw a van? - Yes, I can./No, I can't.",
+              sampleSentences: [
+                { en: "Can you draw a van?", vn: "Bé có vẽ được xe tải nhỏ không?", audio: "Can you draw a van?" },
+                { en: "Yes, I can. No, I can't.", vn: "Tớ có. / Không, tớ không.", audio: "Yes, I can. No, I can't." }
+              ]
+            },
+            vocab: [
+              { id: 'u8_1', word: 'Village', sound: '/ˈvɪlɪdʒ/', vn: 'Ngôi làng', icon: '🏡' },
+              { id: 'u8_2', word: 'Van', sound: '/væn/', vn: 'Xe tải nhỏ', icon: '🚐' },
+              { id: 'u8_3', word: 'Volleyball', sound: '/ˈvɒlibɔːl/', vn: 'Bóng chuyền', icon: '🏐' }
+            ],
+            dialogue: {
+              avatar: '🚐',
+              title: 'Trong Làng',
+              steps: [
+                {
+                  botText: "Can you draw a van?",
+                  botVn: "Bé có vẽ được xe tải nhỏ không?",
+                  targetPhrase: "Yes I can",
+                  targetVn: "Vâng, tớ có thể!"
+                }
+              ]
+            },
+            sentenceQuiz: [
+              { id: 'sq8', fullSentence: "Can you draw a van", vn: "Bé có vẽ được xe tải nhỏ không", words: ["Can", "you", "draw", "a", "van"] }
+            ]
+          },
+          {
+            id: 'gs_u9',
+            title: 'Unit 9: In The Grocery Store',
+            subtitle: 'Cửa Hàng Tạp Hóa 🛒',
+            icon: '🍠',
+            color: 'from-green-500 to-emerald-700',
+            borderColor: 'border-green-300',
+            lesson: {
+              summary: "Phonics: y | Từ vựng: yogurt, yams, yo-yos | Mẫu câu: What do you want? - I want some yams.",
+              keyGrammar: "What do you want? - I want some yams.",
+              sampleSentences: [
+                { en: "What do you want?", vn: "Bé muốn mua gì nào?", audio: "What do you want?" },
+                { en: "I want some yams.", vn: "Tớ muốn mua vài củ khoai mỡ.", audio: "I want some yams." }
+              ]
+            },
+            vocab: [
+              { id: 'u9_1', word: 'Yogurt', sound: '/ˈjɒɡət/', vn: 'Sữa chua', icon: '🥛' },
+              { id: 'u9_2', word: 'Yams', sound: '/jæmz/', vn: 'Khoai mỡ', icon: '🍠' },
+              { id: 'u9_3', word: 'Yo-yos', sound: '/ˈjəʊ jəʊz/', vn: 'Con quay yo-yo', icon: '🪀' }
+            ],
+            dialogue: {
+              avatar: '🛒',
+              title: 'Cửa Hàng Tạp Hóa',
+              steps: [
+                {
+                  botText: "What do you want?",
+                  botVn: "Bé muốn mua gì nào?",
+                  targetPhrase: "I want some yams",
+                  targetVn: "Tớ muốn mua khoai mỡ!"
+                }
+              ]
+            },
+            sentenceQuiz: [
+              { id: 'sq9', fullSentence: "I want some yams", vn: "Tớ muốn mua một ít khoai mỡ", words: ["I", "want", "some", "yams"] }
+            ]
+          },
+          {
+            id: 'gs_u10',
+            title: 'Unit 10: At The Zoo',
+            subtitle: 'Sở Thú Kỳ Thú 🦓',
+            icon: '🦓',
+            color: 'from-yellow-500 to-amber-700',
+            borderColor: 'border-amber-300',
+            lesson: {
+              summary: "Phonics: z | Từ vựng: zoo, zebu, zebra | Mẫu câu: Do you like the zoo? - Yes, I do./No, I don't.",
+              keyGrammar: "Do you like the zoo? - Yes, I do./No, I don't.",
+              sampleSentences: [
+                { en: "Do you like the zoo?", vn: "Bé có thích sở thú không?", audio: "Do you like the zoo?" },
+                { en: "Yes, I do. No, I don't.", vn: "Có, tớ thích. / Không, tớ không thích.", audio: "Yes, I do. No, I don't." }
+              ]
+            },
+            vocab: [
+              { id: 'u10_1', word: 'Zoo', sound: '/zuː/', vn: 'Sở thú', icon: '🦁' },
+              { id: 'u10_2', word: 'Zebu', sound: '/ˈziːbuː/', vn: 'Bò u', icon: '🐂' },
+              { id: 'u10_3', word: 'Zebra', sound: '/ˈzebrə/', vn: 'Ngựa vằn', icon: '🦓' }
+            ],
+            dialogue: {
+              avatar: '🦓',
+              title: 'Sở Thú',
+              steps: [
+                {
+                  botText: "Do you like the zoo?",
+                  botVn: "Bé có thích sở thú không?",
+                  targetPhrase: "Yes I do",
+                  targetVn: "Vâng, tớ thích lắm!"
+                }
+              ]
+            },
+            sentenceQuiz: [
+              { id: 'sq10', fullSentence: "Do you like the zoo", vn: "Bé có thích sở thú không", words: ["Do", "you", "like", "the", "zoo"] }
+            ]
+          },
+          {
+            id: 'gs_u11',
+            title: 'Unit 11: In The Playground',
+            subtitle: 'Sân Chơi Vui Nhộn 🛝',
+            icon: '🚗',
+            color: 'from-rose-400 to-red-600',
+            borderColor: 'border-rose-300',
+            lesson: {
+              summary: "Phonics: i | Từ vựng: sliding, riding, driving | Mẫu câu: They're driving cars.",
+              keyGrammar: "They're driving cars.",
+              sampleSentences: [
+                { en: "They're driving cars in the playground.", vn: "Họ đang lái xe ô tô ở sân chơi.", audio: "They're driving cars in the playground." }
+              ]
+            },
+            vocab: [
+              { id: 'u11_1', word: 'Sliding', sound: '/ˈslaɪdɪŋ/', vn: 'Đang trượt', icon: '🛝' },
+              { id: 'u11_2', word: 'Riding', sound: '/ˈraɪdɪŋ/', vn: 'Đang cưỡi/đạp xe', icon: '🚲' },
+              { id: 'u11_3', word: 'Driving', sound: '/ˈdraɪvɪŋ/', vn: 'Đang lái xe', icon: '🚗' }
+            ],
+            dialogue: {
+              avatar: '🚗',
+              title: 'Sân Chơi',
+              steps: [
+                {
+                  botText: "What are they doing?",
+                  botVn: "Họ đang làm gì thế?",
+                  targetPhrase: "They are driving cars",
+                  targetVn: "Họ đang lái xe ô tô!"
+                }
+              ]
+            },
+            sentenceQuiz: [
+              { id: 'sq11', fullSentence: "They are driving cars", vn: "Họ đang lái xe ô tô", words: ["They", "are", "driving", "cars"] }
+            ]
+          },
+          {
+            id: 'gs_u12',
+            title: 'Unit 12: At The Café',
+            subtitle: 'Quán Cà Phê Thư Giãn ☕',
+            icon: '🍰',
+            color: 'from-teal-500 to-cyan-700',
+            borderColor: 'border-teal-300',
+            lesson: {
+              summary: "Phonics: a | Từ vựng: grapes, cake, table | Mẫu câu: The cake is on the table. / The grapes are on the table.",
+              keyGrammar: "The cake is on the table. / The grapes are on the table.",
+              sampleSentences: [
+                { en: "The cake is on the table.", vn: "Chiếc bánh ngọt ở trên bàn.", audio: "The cake is on the table." },
+                { en: "The grapes are on the table.", vn: "Những chùm nho ở trên bàn.", audio: "The grapes are on the table." }
+              ]
+            },
+            vocab: [
+              { id: 'u12_1', word: 'Grapes', sound: '/ɡreɪps/', vn: 'Quả nho', icon: '🍇' },
+              { id: 'u12_2', word: 'Cake', sound: '/keɪk/', vn: 'Bánh ngọt', icon: '🍰' },
+              { id: 'u12_3', word: 'Table', sound: '/ˈteɪbl/', vn: 'Cái bàn', icon: '🪵' }
+            ],
+            dialogue: {
+              avatar: '🍰',
+              title: 'Quán Cà Phê',
+              steps: [
+                {
+                  botText: "Where is the cake?",
+                  botVn: "Chiếc bánh ngọt ở đâu?",
+                  targetPhrase: "The cake is on the table",
+                  targetVn: "Chiếc bánh ở trên bàn!"
+                }
+              ]
+            },
+            sentenceQuiz: [
+              { id: 'sq12', fullSentence: "The cake is on the table", vn: "Chiếc bánh ngọt ở trên bàn", words: ["The", "cake", "is", "on", "the", "table"] }
+            ]
+          },
+          {
+            id: 'gs_u13',
+            title: 'Unit 13: In The Maths Class',
+            subtitle: 'Giờ Học Toán 🔢',
+            icon: '🔢',
+            color: 'from-pink-600 to-rose-700',
+            borderColor: 'border-pink-300',
+            lesson: {
+              summary: "Phonics: n | Từ vựng: eleven, thirteen, fourteen, fifteen | Mẫu câu: What number is it? - It's eleven.",
+              keyGrammar: "What number is it? - It's eleven.",
+              sampleSentences: [
+                { en: "What number is it?", vn: "Đây là số mấy?", audio: "What number is it?" },
+                { en: "It's eleven.", vn: "Đó là số mười một.", audio: "It's eleven." }
+              ]
+            },
+            vocab: [
+              { id: 'u13_1', word: 'Eleven', sound: '/ɪˈlevn/', vn: 'Số 11', icon: '1️⃣1️⃣' },
+              { id: 'u13_2', word: 'Thirteen', sound: '/ˌθɜːˈtiːn/', vn: 'Số 13', icon: '1️⃣3️⃣' },
+              { id: 'u13_3', word: 'Fourteen', sound: '/ˌfɔːˈtiːn/', vn: 'Số 14', icon: '1️⃣4️⃣' },
+              { id: 'u13_4', word: 'Fifteen', sound: '/ˌfɪfˈtiːn/', vn: 'Số 15', icon: '1️⃣5️⃣' }
+            ],
+            dialogue: {
+              avatar: '🔢',
+              title: 'Giờ Toán',
+              steps: [
+                {
+                  botText: "What number is it?",
+                  botVn: "Đây là số mấy?",
+                  targetPhrase: "It is eleven",
+                  targetVn: "Đó là số mười một!"
+                }
+              ]
+            },
+            sentenceQuiz: [
+              { id: 'sq13', fullSentence: "What number is it", vn: "Đây là số mấy", words: ["What", "number", "is", "it"] }
+            ]
+          },
+          {
+            id: 'gs_u14',
+            title: 'Unit 14: At Home',
+            subtitle: 'Ở Nhà Cùng Gia Đình 🏠',
+            icon: '👵',
+            color: 'from-blue-500 to-indigo-700',
+            borderColor: 'border-blue-300',
+            lesson: {
+              summary: "Phonics: er | Từ vựng: brother, sister, grandmother | Mẫu câu: How old is your brother? - He's nineteen.",
+              keyGrammar: "How old is your brother? - He's nineteen.",
+              sampleSentences: [
+                { en: "How old is your brother?", vn: "Anh trai của bé bao nhiêu tuổi?", audio: "How old is your brother?" },
+                { en: "He's nineteen.", vn: "Cậu ấy mười chín tuổi.", audio: "He's nineteen." }
+              ]
+            },
+            vocab: [
+              { id: 'u14_1', word: 'Brother', sound: '/ˈbrʌðər/', vn: 'Anh/em trai', icon: '👦' },
+              { id: 'u14_2', word: 'Sister', sound: '/ˈsɪstər/', vn: 'Chị/em gái', icon: '👧' },
+              { id: 'u14_3', word: 'Grandmother', sound: '/ˈɡrænmʌðər/', vn: 'Bà', icon: '👵' }
+            ],
+            dialogue: {
+              avatar: '👵',
+              title: 'Ở Nhà',
+              steps: [
+                {
+                  botText: "How old is your brother?",
+                  botVn: "Anh trai bé bao nhiêu tuổi?",
+                  targetPhrase: "He is nineteen",
+                  targetVn: "Cậu ấy mười chín tuổi!"
+                }
+              ]
+            },
+            sentenceQuiz: [
+              { id: 'sq14', fullSentence: "How old is your brother", vn: "Anh trai bé bao nhiêu tuổi", words: ["How", "old", "is", "your", "brother"] }
+            ]
+          },
+          {
+            id: 'gs_u15',
+            title: 'Unit 15: In The Clothes Shop',
+            subtitle: 'Cửa Hàng Quần Áo 👕',
+            icon: '🩳',
+            color: 'from-amber-600 to-yellow-700',
+            borderColor: 'border-amber-300',
+            lesson: {
+              summary: "Phonics: sh | Từ vựng: shirts, shoes, shorts | Mẫu câu: Where are the shoes? - Over there.",
+              keyGrammar: "Where are the shoes? - Over there.",
+              sampleSentences: [
+                { en: "Where are the shoes?", vn: "Đôi giày ở đâu thế?", audio: "Where are the shoes?" },
+                { en: "Over there.", vn: "Ở đằng kia kìa.", audio: "Over there." }
+              ]
+            },
+            vocab: [
+              { id: 'u15_1', word: 'Shirts', sound: '/ʃɜːrts/', vn: 'Áo sơ mi', icon: '👔' },
+              { id: 'u15_2', word: 'Shoes', sound: '/ʃuːz/', vn: 'Đôi giày', icon: '👟' },
+              { id: 'u15_3', word: 'Shorts', sound: '/ʃɔːrts/', vn: 'Quần đùi', icon: '🩳' }
+            ],
+            dialogue: {
+              avatar: '🩳',
+              title: 'Tiệm Quần Áo',
+              steps: [
+                {
+                  botText: "Where are the shoes?",
+                  botVn: "Đôi giày ở đâu?",
+                  targetPhrase: "They are over there",
+                  targetVn: "Chúng ở đằng kia!"
+                }
+              ]
+            },
+            sentenceQuiz: [
+              { id: 'sq15', fullSentence: "Where are the shoes over there", vn: "Đôi giày ở đằng kia kìa", words: ["Where", "are", "the", "shoes", "over", "there"] }
+            ]
+          },
+          {
+            id: 'gs_u16',
+            title: 'Unit 16: At The Campsite',
+            subtitle: 'Khu Cắm Trại Ngoài Trời ⛺',
+            icon: '⛺',
+            color: 'from-orange-500 to-amber-600',
+            borderColor: 'border-orange-300',
+            lesson: {
+              summary: "Phonics: t | Từ vựng: tent, teapot, blanket | Mẫu câu: Is the blanket near the tent? - No, it isn't. It's in the tent.",
+              keyGrammar: "Is the blanket near the tent? - No, it isn't. It's in the tent.",
+              sampleSentences: [
+                { en: "Is the blanket near the tent?", vn: "Tấm chăn ở gần lều phải không?", audio: "Is the blanket near the tent?" },
+                { en: "No, it isn't. It's in the tent.", vn: "Không phải. Nó ở trong lều.", audio: "No, it isn't. It's in the tent." }
+              ]
+            },
+            vocab: [
+              { id: 'u16_1', word: 'Tent', sound: '/tent/', vn: 'Lều', icon: '⛺' },
+              { id: 'u16_2', word: 'Teapot', sound: '/ˈtiːpɒt/', vn: 'Ấm trà', icon: '🫖' },
+              { id: 'u16_3', word: 'Blanket', sound: '/ˈblæŋkɪt/', vn: 'Tấm chăn', icon: '🧶' }
+            ],
+            dialogue: {
+              avatar: '⛺',
+              title: 'Cắm Trại',
+              steps: [
+                {
+                  botText: "Is the blanket near the tent?",
+                  botVn: "Tấm chăn ở gần lều phải không?",
+                  targetPhrase: "No it isn't it is in the tent",
+                  targetVn: "Không, nó ở trong lều!"
+                }
+              ]
+            },
+            sentenceQuiz: [
+              { id: 'sq16', fullSentence: "Is the blanket near the tent", vn: "Tấm chăn ở gần lều phải không", words: ["Is", "the", "blanket", "near", "the", "tent"] }
+            ]
+          }
         ];
 
-        function App() {
-          const [currentView, setCurrentView] = useState('home');
-          const [selectedUnit, setSelectedUnit] = useState(null);
-          const [score, setScore] = useState(15);
+        // --- LUYỆN MẪU CÂU NÂNG CAO: câu tương tự theo từ vựng từng Unit ---
+        // icon: hình gợi ý | key: từ vựng trong câu (dùng cho Điền từ) | en/vn: câu luyện tập
+        // q/qVn: câu hỏi (Hỏi – Đáp) | a/aVn: câu trả lời đúng (nếu khác en) | wrong: đáp án sai
+        const PATTERN_PRACTICE = {
+          gs_u1: {
+            frame: "The ___ is yummy.  /  I like ___.",
+            tip: "Dùng “The + món ăn + is yummy.” để khen món ăn ngon. Dùng “I like + món ăn.” để nói mình thích món gì.",
+            drills: [
+              { icon: '🍿', key: 'popcorn', en: "The popcorn is yummy.", vn: "Bỏng ngô rất ngon.", q: "Do you like the popcorn?", qVn: "Bé có thích bỏng ngô không?" },
+              { icon: '🍕', key: 'pizza', en: "The pizza is yummy.", vn: "Bánh pizza rất ngon.", q: "Do you like the pizza?", qVn: "Bé có thích bánh pizza không?" },
+              { icon: '🍝', key: 'pasta', en: "The pasta is yummy.", vn: "Mì ống rất ngon.", q: "Do you like the pasta?", qVn: "Bé có thích mì ống không?" },
+              { icon: '🍕😋', key: 'pizza', en: "I like pizza.", vn: "Tớ thích bánh pizza.", q: "What do you like?", qVn: "Bé thích món gì?" },
+              { icon: '🍝😋', key: 'pasta', en: "I like pasta.", vn: "Tớ thích mì ống.", q: "What do you like?", qVn: "Bé thích món gì?" },
+              { icon: '🍿😋', key: 'popcorn', en: "I like popcorn.", vn: "Tớ thích bỏng ngô.", q: "What do you like?", qVn: "Bé thích món gì?" }
+            ]
+          },
+          gs_u2: {
+            frame: "Is she/he ___ing a ___?  –  Yes, she/he is. / No, she/he isn't.",
+            tip: "Hỏi ai đó có đang làm gì không: “Is she/he + V-ing + a ...?”. Đúng thì trả lời “Yes, she is.”, sai thì “No, she isn't.”",
+            drills: [
+              { icon: '👧🪁', key: 'kite', en: "She is flying a kite.", vn: "Cô ấy đang thả diều.", q: "Is she flying a kite?", qVn: "Cô ấy đang thả diều phải không?", a: "Yes, she is.", aVn: "Đúng vậy.", wrong: ["No, she isn't.", "Yes, he is."] },
+              { icon: '👦🚲', key: 'bike', en: "He is riding a bike.", vn: "Cậu ấy đang đạp xe đạp.", q: "Is he riding a bike?", qVn: "Cậu ấy đang đạp xe phải không?", a: "Yes, he is.", aVn: "Đúng vậy.", wrong: ["No, he isn't.", "Yes, she is."] },
+              { icon: '👧🐱', key: 'kitten', en: "She is playing with a kitten.", vn: "Cô ấy đang chơi với mèo con.", q: "Is she playing with a kitten?", qVn: "Cô ấy đang chơi với mèo con phải không?", a: "Yes, she is.", aVn: "Đúng vậy.", wrong: ["No, she isn't.", "Yes, he is."] },
+              { icon: '👧🚲', key: 'bike', en: "She is riding a bike.", vn: "Cô ấy đang đạp xe đạp.", q: "Is she flying a kite?", qVn: "Cô ấy đang thả diều phải không?", a: "No, she isn't.", aVn: "Không phải.", wrong: ["Yes, she is.", "No, he isn't."] },
+              { icon: '👦🪁', key: 'kite', en: "He is flying a kite.", vn: "Cậu ấy đang thả diều.", q: "Is he riding a bike?", qVn: "Cậu ấy đang đạp xe phải không?", a: "No, he isn't.", aVn: "Không phải.", wrong: ["Yes, he is.", "No, she isn't."] }
+            ]
+          },
+          gs_u3: {
+            frame: "Let's look at the ___!",
+            tip: "“Let's + động từ ...!” nghĩa là “Cùng ... nào!”, dùng để rủ bạn cùng làm việc gì đó.",
+            drills: [
+              { icon: '🌊', key: 'sea', en: "Let's look at the sea!", vn: "Cùng nhìn ra biển nào!" },
+              { icon: '⛵', key: 'sail', en: "Let's look at the sail!", vn: "Cùng nhìn cánh buồm nào!" },
+              { icon: '🏖️', key: 'sand', en: "Let's look at the sand!", vn: "Cùng nhìn bãi cát nào!" },
+              { icon: '🏖️🧒', key: 'sand', en: "Let's play on the sand!", vn: "Cùng chơi trên bãi cát nào!" },
+              { icon: '🏊🌊', key: 'sea', en: "Let's swim in the sea!", vn: "Cùng bơi ở biển nào!" }
+            ]
+          },
+          gs_u4: {
+            frame: "What can you see?  –  I can see a ___.",
+            tip: "Hỏi “What can you see?” (Bé nhìn thấy gì?). Trả lời “I can see a + đồ vật.”",
+            drills: [
+              { icon: '🌈', key: 'rainbow', en: "I can see a rainbow.", vn: "Tớ có thể thấy cầu vồng.", q: "What can you see?", qVn: "Bé có thể thấy gì?" },
+              { icon: '🏞️', key: 'river', en: "I can see a river.", vn: "Tớ có thể thấy dòng sông.", q: "What can you see?", qVn: "Bé có thể thấy gì?" },
+              { icon: '🛣️', key: 'road', en: "I can see a road.", vn: "Tớ có thể thấy con đường.", q: "What can you see?", qVn: "Bé có thể thấy gì?" },
+              { icon: '🏞️', key: 'river', en: "I can see a river.", vn: "Tớ có thể thấy dòng sông.", q: "Can you see a river?", qVn: "Bé có thấy dòng sông không?", a: "Yes, I can.", aVn: "Có, tớ thấy.", wrong: ["No, I can't.", "Yes, it is."] },
+              { icon: '🛣️', key: 'road', en: "I can see a road.", vn: "Tớ có thể thấy con đường.", q: "Can you see a rainbow?", qVn: "Bé có thấy cầu vồng không?", a: "No, I can't. I can see a road.", aVn: "Không. Tớ thấy con đường.", wrong: ["Yes, I can.", "No, I can't. I can see a river."] }
+            ]
+          },
+          gs_u5: {
+            frame: "What's he/she doing?  –  He's/She's ___ing a ___.",
+            tip: "Hỏi ai đó đang làm gì: “What's he/she doing?”. Trả lời: “He's/She's + V-ing + ...”.",
+            drills: [
+              { icon: '👦📝', key: 'quiz', en: "He's doing a quiz.", vn: "Cậu ấy đang làm bài đố vui.", q: "What's he doing?", qVn: "Cậu ấy đang làm gì?" },
+              { icon: '👧❓', key: 'question', en: "She's asking a question.", vn: "Cô ấy đang đặt câu hỏi.", q: "What's she doing?", qVn: "Cô ấy đang làm gì?" },
+              { icon: '👦🟦', key: 'square', en: "He's drawing a square.", vn: "Cậu ấy đang vẽ hình vuông.", q: "What's he doing?", qVn: "Cậu ấy đang làm gì?" },
+              { icon: '👧📝', key: 'quiz', en: "She's doing a quiz.", vn: "Cô ấy đang làm bài đố vui.", q: "What's she doing?", qVn: "Cô ấy đang làm gì?" },
+              { icon: '👦❓', key: 'question', en: "He's answering a question.", vn: "Cậu ấy đang trả lời câu hỏi.", q: "What's he doing?", qVn: "Cậu ấy đang làm gì?" },
+              { icon: '👧🟦', key: 'square', en: "She's drawing a square.", vn: "Cô ấy đang vẽ hình vuông.", q: "What's she doing?", qVn: "Cô ấy đang làm gì?" }
+            ]
+          },
+          gs_u6: {
+            frame: "Is there a ___?  –  Yes, there is. / No, there isn't.",
+            tip: "Hỏi có cái gì/con gì không: “Is there a ...?”. Có thì “Yes, there is.”, không có thì “No, there isn't.”",
+            drills: [
+              { icon: '🦊', key: 'fox', en: "There is a fox on the farm.", vn: "Có một con cáo ở nông trại.", q: "Is there a fox?", qVn: "Có con cáo nào không?", a: "Yes, there is.", aVn: "Có.", wrong: ["No, there isn't.", "Yes, I can."] },
+              { icon: '🐂', key: 'ox', en: "There is an ox on the farm.", vn: "Có một con bò tót ở nông trại.", q: "Is there an ox?", qVn: "Có con bò tót nào không?", a: "Yes, there is.", aVn: "Có.", wrong: ["No, there isn't.", "Yes, she is."] },
+              { icon: '📦', key: 'box', en: "There is a box.", vn: "Có một cái hộp.", q: "Is there a box?", qVn: "Có cái hộp nào không?", a: "Yes, there is.", aVn: "Có.", wrong: ["No, there isn't.", "Yes, he is."] },
+              { icon: '🐂', key: 'ox', en: "There is an ox. There isn't a fox.", vn: "Có một con bò tót. Không có con cáo.", q: "Is there a fox?", qVn: "Có con cáo nào không?", a: "No, there isn't.", aVn: "Không có.", wrong: ["Yes, there is.", "No, I can't."] },
+              { icon: '🦊📦', key: 'box', en: "The fox is in the box.", vn: "Con cáo ở trong cái hộp.", q: "Is there a fox?", qVn: "Có con cáo nào không?", a: "Yes, there is.", aVn: "Có.", wrong: ["No, there isn't.", "No, it isn't."] }
+            ]
+          },
+          gs_u7: {
+            frame: "Pass me the ___, please.  –  Here you are.",
+            tip: "Nhờ ai chuyển giúp đồ: “Pass me the ..., please.”. Khi đưa đồ cho bạn, nói “Here you are.” (Của bạn đây).",
+            drills: [
+              { icon: '🍯', key: 'jam', en: "Pass me the jam, please.", vn: "Làm ơn chuyển giúp tớ hũ mứt." },
+              { icon: '🧃', key: 'juice', en: "Pass me the juice, please.", vn: "Làm ơn chuyển giúp tớ nước ép." },
+              { icon: '🍮', key: 'jelly', en: "Pass me the jelly, please.", vn: "Làm ơn chuyển giúp tớ món thạch." },
+              { icon: '🍯😋', key: 'jam', en: "The jam is yummy.", vn: "Mứt rất ngon." },
+              { icon: '🧃😋', key: 'juice', en: "I like juice.", vn: "Tớ thích nước ép." },
+              { icon: '🍮😋', key: 'jelly', en: "I like jelly.", vn: "Tớ thích thạch." }
+            ]
+          },
+          gs_u8: {
+            frame: "Can you draw a ___?  –  Yes, I can. / No, I can't.",
+            tip: "Hỏi bạn có làm được việc gì không: “Can you + động từ ...?”. Trả lời “Yes, I can.” hoặc “No, I can't.”",
+            drills: [
+              { icon: '🚐✅', key: 'van', en: "I can draw a van.", vn: "Tớ có thể vẽ xe tải nhỏ.", q: "Can you draw a van?", qVn: "Bé có vẽ được xe tải nhỏ không?", a: "Yes, I can.", aVn: "Có, tớ vẽ được.", wrong: ["No, I can't.", "Yes, there is."] },
+              { icon: '🏡✅', key: 'village', en: "I can draw a village.", vn: "Tớ có thể vẽ ngôi làng.", q: "Can you draw a village?", qVn: "Bé có vẽ được ngôi làng không?", a: "Yes, I can.", aVn: "Có, tớ vẽ được.", wrong: ["No, I can't.", "Yes, she is."] },
+              { icon: '🏐✅', key: 'volleyball', en: "I can play volleyball.", vn: "Tớ có thể chơi bóng chuyền.", q: "Can you play volleyball?", qVn: "Bé có chơi được bóng chuyền không?", a: "Yes, I can.", aVn: "Có, tớ chơi được.", wrong: ["No, I can't.", "Yes, I do."] },
+              { icon: '🚐❌', key: 'van', en: "I can't draw a van.", vn: "Tớ không vẽ được xe tải nhỏ.", q: "Can you draw a van?", qVn: "Bé có vẽ được xe tải nhỏ không?", a: "No, I can't.", aVn: "Không, tớ không vẽ được.", wrong: ["Yes, I can.", "No, there isn't."] },
+              { icon: '🏐❌', key: 'volleyball', en: "I can't play volleyball.", vn: "Tớ không chơi được bóng chuyền.", q: "Can you play volleyball?", qVn: "Bé có chơi được bóng chuyền không?", a: "No, I can't.", aVn: "Không, tớ không chơi được.", wrong: ["Yes, I can.", "No, I don't."] }
+            ]
+          },
+          gs_u9: {
+            frame: "What do you want?  –  I want some ___.",
+            tip: "Hỏi bạn muốn gì: “What do you want?”. Trả lời: “I want some + đồ vật/món ăn.” (Tớ muốn một ít ...).",
+            drills: [
+              { icon: '🍠', key: 'yams', en: "I want some yams.", vn: "Tớ muốn một ít khoai mỡ.", q: "What do you want?", qVn: "Bé muốn gì?" },
+              { icon: '🥛', key: 'yogurt', en: "I want some yogurt.", vn: "Tớ muốn một ít sữa chua.", q: "What do you want?", qVn: "Bé muốn gì?" },
+              { icon: '🪀', key: 'yo-yos', en: "I want some yo-yos.", vn: "Tớ muốn vài con quay yo-yo.", q: "What do you want?", qVn: "Bé muốn gì?" },
+              { icon: '🥛😋', key: 'yogurt', en: "I like yogurt.", vn: "Tớ thích sữa chua.", q: "What do you like?", qVn: "Bé thích gì?" },
+              { icon: '🍠😋', key: 'yams', en: "I like yams.", vn: "Tớ thích khoai mỡ.", q: "What do you like?", qVn: "Bé thích gì?" }
+            ]
+          },
+          gs_u10: {
+            frame: "Do you like the ___?  –  Yes, I do. / No, I don't.",
+            tip: "Hỏi bạn có thích gì không: “Do you like ...?”. Thích thì “Yes, I do.”, không thích thì “No, I don't.”",
+            drills: [
+              { icon: '🦁😊', key: 'zoo', en: "I like the zoo.", vn: "Tớ thích sở thú.", q: "Do you like the zoo?", qVn: "Bé có thích sở thú không?", a: "Yes, I do.", aVn: "Có, tớ thích.", wrong: ["No, I don't.", "Yes, I can."] },
+              { icon: '🦓😊', key: 'zebras', en: "I like zebras.", vn: "Tớ thích ngựa vằn.", q: "Do you like zebras?", qVn: "Bé có thích ngựa vằn không?", a: "Yes, I do.", aVn: "Có, tớ thích.", wrong: ["No, I don't.", "Yes, there is."] },
+              { icon: '🐂🙁', key: 'zebus', en: "I don't like zebus.", vn: "Tớ không thích bò u.", q: "Do you like zebus?", qVn: "Bé có thích bò u không?", a: "No, I don't.", aVn: "Không, tớ không thích.", wrong: ["Yes, I do.", "No, I can't."] },
+              { icon: '🐂😊', key: 'zebus', en: "I like zebus.", vn: "Tớ thích bò u.", q: "Do you like zebus?", qVn: "Bé có thích bò u không?", a: "Yes, I do.", aVn: "Có, tớ thích.", wrong: ["No, I don't.", "Yes, he is."] },
+              { icon: '🦓', key: 'zebras', en: "Let's look at the zebras!", vn: "Cùng ngắm những chú ngựa vằn nào!" }
+            ]
+          },
+          gs_u11: {
+            frame: "They're ___ing ___.",
+            tip: "“They're” = “They are” (Họ đang ...). Dùng “They're + V-ing ...” để kể nhiều người đang làm gì. Một người: “He's/She's + V-ing”.",
+            drills: [
+              { icon: '🧒🧒🚗', key: 'driving', en: "They're driving cars.", vn: "Họ đang lái xe ô tô.", q: "What are they doing?", qVn: "Họ đang làm gì?" },
+              { icon: '🧒🧒🚲', key: 'riding', en: "They're riding bikes.", vn: "Họ đang đạp xe đạp.", q: "What are they doing?", qVn: "Họ đang làm gì?" },
+              { icon: '🧒🧒🛝', key: 'sliding', en: "They're sliding.", vn: "Họ đang chơi cầu trượt.", q: "What are they doing?", qVn: "Họ đang làm gì?" },
+              { icon: '👦🚗', key: 'driving', en: "He's driving a car.", vn: "Cậu ấy đang lái xe ô tô.", q: "What's he doing?", qVn: "Cậu ấy đang làm gì?" },
+              { icon: '👧🚲', key: 'riding', en: "She's riding a bike.", vn: "Cô ấy đang đạp xe đạp.", q: "What's she doing?", qVn: "Cô ấy đang làm gì?" },
+              { icon: '👧🛝', key: 'sliding', en: "She's sliding.", vn: "Cô ấy đang chơi cầu trượt.", q: "What's she doing?", qVn: "Cô ấy đang làm gì?" }
+            ]
+          },
+          gs_u12: {
+            frame: "The ___ is on the table.  /  The ___ are on the table.",
+            tip: "Một đồ vật dùng “is”: The cake is ... Nhiều đồ vật dùng “are”: The grapes are ... “on the table” = ở trên bàn.",
+            drills: [
+              { icon: '🍰', key: 'cake', en: "The cake is on the table.", vn: "Chiếc bánh ngọt ở trên bàn.", q: "Where is the cake?", qVn: "Bánh ngọt ở đâu?" },
+              { icon: '🍇', key: 'grapes', en: "The grapes are on the table.", vn: "Những quả nho ở trên bàn.", q: "Where are the grapes?", qVn: "Nho ở đâu?" },
+              { icon: '🧃', key: 'juice', en: "The juice is on the table.", vn: "Nước ép ở trên bàn.", q: "Where is the juice?", qVn: "Nước ép ở đâu?" },
+              { icon: '🍕', key: 'pizza', en: "The pizza is on the table.", vn: "Bánh pizza ở trên bàn.", q: "Where is the pizza?", qVn: "Bánh pizza ở đâu?" },
+              { icon: '🍰😋', key: 'cake', en: "The cake is yummy.", vn: "Bánh ngọt rất ngon." },
+              { icon: '🍇😋', key: 'grapes', en: "I like grapes.", vn: "Tớ thích nho." }
+            ]
+          },
+          gs_u13: {
+            frame: "What number is it?  –  It's ___.",
+            tip: "Hỏi đây là số mấy: “What number is it?”. Trả lời: “It's + số.” (It's = It is).",
+            drills: [
+              { icon: '1️⃣1️⃣', key: 'eleven', en: "It's eleven.", vn: "Đó là số mười một.", q: "What number is it?", qVn: "Đây là số mấy?" },
+              { icon: '1️⃣3️⃣', key: 'thirteen', en: "It's thirteen.", vn: "Đó là số mười ba.", q: "What number is it?", qVn: "Đây là số mấy?" },
+              { icon: '1️⃣4️⃣', key: 'fourteen', en: "It's fourteen.", vn: "Đó là số mười bốn.", q: "What number is it?", qVn: "Đây là số mấy?" },
+              { icon: '1️⃣5️⃣', key: 'fifteen', en: "It's fifteen.", vn: "Đó là số mười lăm.", q: "What number is it?", qVn: "Đây là số mấy?" },
+              { icon: '🍎 x 1️⃣3️⃣', key: 'thirteen', en: "I can see thirteen apples.", vn: "Tớ thấy mười ba quả táo.", q: "What can you see?", qVn: "Bé thấy gì?" },
+              { icon: '🎈 x 1️⃣5️⃣', key: 'fifteen', en: "I can see fifteen balloons.", vn: "Tớ thấy mười lăm quả bóng bay.", q: "What can you see?", qVn: "Bé thấy gì?" }
+            ]
+          },
+          gs_u14: {
+            frame: "How old is your ___?  –  He's/She's ___.",
+            tip: "Hỏi tuổi người thân: “How old is your + người thân?”. Con trai/đàn ông trả lời “He's ...”, con gái/phụ nữ trả lời “She's ...”.",
+            drills: [
+              { icon: '👦 1️⃣9️⃣', key: 'brother', en: "My brother is nineteen.", vn: "Anh trai tớ mười chín tuổi.", q: "How old is your brother?", qVn: "Anh trai bé bao nhiêu tuổi?", a: "He's nineteen.", aVn: "Anh ấy mười chín tuổi.", wrong: ["She's nineteen.", "It's nineteen."] },
+              { icon: '👧 7️⃣', key: 'sister', en: "My sister is seven.", vn: "Em gái tớ bảy tuổi.", q: "How old is your sister?", qVn: "Em gái bé bao nhiêu tuổi?", a: "She's seven.", aVn: "Em ấy bảy tuổi.", wrong: ["He's seven.", "She's eleven."] },
+              { icon: '👵 7️⃣0️⃣', key: 'grandmother', en: "My grandmother is seventy.", vn: "Bà của tớ bảy mươi tuổi.", q: "How old is your grandmother?", qVn: "Bà của bé bao nhiêu tuổi?", a: "She's seventy.", aVn: "Bà bảy mươi tuổi.", wrong: ["He's seventy.", "She's seven."] },
+              { icon: '👦', key: 'brother', en: "This is my brother.", vn: "Đây là anh trai tớ.", q: "Who is he?", qVn: "Cậu ấy là ai?" },
+              { icon: '👧', key: 'sister', en: "This is my sister.", vn: "Đây là chị gái tớ.", q: "Who is she?", qVn: "Cô ấy là ai?" },
+              { icon: '👵', key: 'grandmother', en: "This is my grandmother.", vn: "Đây là bà của tớ.", q: "Who is she?", qVn: "Bà ấy là ai?" }
+            ]
+          },
+          gs_u15: {
+            frame: "Where are the ___?  –  Over there.",
+            tip: "Hỏi đồ vật (số nhiều) ở đâu: “Where are the ...?”. Trả lời “Over there.” (Ở đằng kia) hoặc “They're over there.”",
+            drills: [
+              { icon: '👟👉', key: 'shoes', en: "The shoes are over there.", vn: "Đôi giày ở đằng kia.", q: "Where are the shoes?", qVn: "Đôi giày ở đâu?" },
+              { icon: '👔👉', key: 'shirts', en: "The shirts are over there.", vn: "Những chiếc áo sơ mi ở đằng kia.", q: "Where are the shirts?", qVn: "Áo sơ mi ở đâu?" },
+              { icon: '🩳👉', key: 'shorts', en: "The shorts are over there.", vn: "Những chiếc quần đùi ở đằng kia.", q: "Where are the shorts?", qVn: "Quần đùi ở đâu?" },
+              { icon: '👟😊', key: 'shoes', en: "I like the shoes.", vn: "Tớ thích đôi giày này.", q: "What do you like?", qVn: "Bé thích gì?" },
+              { icon: '🩳🛍️', key: 'shorts', en: "I want some shorts.", vn: "Tớ muốn mua vài chiếc quần đùi.", q: "What do you want?", qVn: "Bé muốn gì?" },
+              { icon: '👔🛍️', key: 'shirts', en: "I want some shirts.", vn: "Tớ muốn mua vài chiếc áo sơ mi.", q: "What do you want?", qVn: "Bé muốn gì?" }
+            ]
+          },
+          gs_u16: {
+            frame: "Is the ___ near the tent?  –  Yes, it is. / No, it isn't. It's in the tent.",
+            tip: "“near” = ở gần, “in” = ở trong. Hỏi: “Is the ... near the tent?”. Trả lời “Yes, it is.” hoặc “No, it isn't. It's in the tent.”",
+            drills: [
+              { icon: '🧶 ➡️ ⛺', key: 'blanket', en: "The blanket is in the tent.", vn: "Tấm chăn ở trong lều.", q: "Is the blanket near the tent?", qVn: "Tấm chăn ở gần lều phải không?", a: "No, it isn't. It's in the tent.", aVn: "Không. Nó ở trong lều.", wrong: ["Yes, it is.", "No, there isn't."] },
+              { icon: '🫖 ⛺', key: 'teapot', en: "The teapot is near the tent.", vn: "Ấm trà ở gần lều.", q: "Is the teapot near the tent?", qVn: "Ấm trà ở gần lều phải không?", a: "Yes, it is.", aVn: "Đúng vậy.", wrong: ["No, it isn't. It's in the tent.", "Yes, I do."] },
+              { icon: '🫖 ➡️ ⛺', key: 'teapot', en: "The teapot is in the tent.", vn: "Ấm trà ở trong lều.", q: "Is the teapot near the tent?", qVn: "Ấm trà ở gần lều phải không?", a: "No, it isn't. It's in the tent.", aVn: "Không. Nó ở trong lều.", wrong: ["Yes, it is.", "No, I don't."] },
+              { icon: '🧶 ⛺', key: 'blanket', en: "The blanket is near the tent.", vn: "Tấm chăn ở gần lều.", q: "Is the blanket near the tent?", qVn: "Tấm chăn ở gần lều phải không?", a: "Yes, it is.", aVn: "Đúng vậy.", wrong: ["No, it isn't. It's in the tent.", "Yes, there is."] },
+              { icon: '⛺', key: 'tent', en: "The tent is big.", vn: "Cái lều rất to." }
+            ]
+          }
+        };
 
-          const speakText = (text) => {
-            if ('speechSynthesis' in window) {
-              window.speechSynthesis.cancel();
-              const utterance = new SpeechSynthesisUtterance(text);
-              utterance.lang = 'en-US';
-              utterance.rate = 0.9;
-              window.speechSynthesis.speak(utterance);
+        const shuffleArr = (arr) => [...arr].sort(() => Math.random() - 0.5);
+        const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const keyRegex = (key) => new RegExp(`(^|[^A-Za-z-])(${escapeRe(key)})(?=$|[^A-Za-z-])`, 'i');
+        const tokenizeSentence = (s) => s.replace(/[.!?,]/g, '').split(/\s+/).filter(Boolean);
+
+        function HighlightKey({ text, keyWord }) {
+          const m = text.match(keyRegex(keyWord));
+          if (!m) return <span>{text}</span>;
+          const start = m.index + m[1].length;
+          const end = start + m[2].length;
+          return (
+            <span>
+              {text.slice(0, start)}
+              <span className="bg-amber-200 text-rose-700 px-1 rounded-md">{text.slice(start, end)}</span>
+              {text.slice(end)}
+            </span>
+          );
+        }
+
+        function PatternPractice({ topic, speak, addStars, triggerFireworks }) {
+          const data = PATTERN_PRACTICE[topic.id];
+          const [mode, setMode] = useState('explore');
+          const [order, setOrder] = useState([]);
+          const [pos, setPos] = useState(0);
+          const [status, setStatus] = useState(null); // 'correct' | 'wrong' | null
+          const [missed, setMissed] = useState(false);
+          const [options, setOptions] = useState([]);
+          const [picked, setPicked] = useState([]);
+          const [pool, setPool] = useState([]);
+          const [score, setScore] = useState({ correct: 0, total: 0 });
+          const [listeningIdx, setListeningIdx] = useState(null);
+          const [speakResult, setSpeakResult] = useState({});
+          const recRef = useRef(null);
+
+          if (!data) return null;
+          const drills = data.drills;
+          const ROUND = Math.min(6, drills.length);
+
+          const keysOfUnit = Array.from(new Set(drills.map(d => d.key.toLowerCase())));
+
+          const buildQuestion = (m, drill) => {
+            setStatus(null);
+            setMissed(false);
+            if (m === 'fill') {
+              const others = shuffleArr(keysOfUnit.filter(k => k !== drill.key.toLowerCase())).slice(0, 2);
+              setOptions(shuffleArr([drill.key.toLowerCase(), ...others]));
+            } else if (m === 'order') {
+              const toks = tokenizeSentence(drill.en).map((w, i) => ({ id: i, word: w }));
+              let sh = shuffleArr(toks);
+              if (toks.length > 1 && sh.every((t, i) => t.id === i)) sh = [...sh.slice(1), sh[0]];
+              setPool(sh);
+              setPicked([]);
+            } else if (m === 'qa') {
+              const answer = drill.a || drill.en;
+              let wrong = drill.wrong;
+              if (!wrong) {
+                wrong = shuffleArr(Array.from(new Set(
+                  drills.filter(d => d.key.toLowerCase() !== drill.key.toLowerCase()).map(d => d.a || d.en)
+                ))).slice(0, 2);
+              }
+              setOptions(shuffleArr([answer, ...wrong.filter(w => w !== answer)]));
+              if (drill.q) speak(drill.q);
             }
           };
 
+          const startMode = (m) => {
+            setMode(m);
+            setScore({ correct: 0, total: 0 });
+            setSpeakResult({});
+            if (m === 'explore') return;
+            const ord = shuffleArr(drills.map((_, i) => i)).slice(0, ROUND);
+            setOrder(ord);
+            setPos(0);
+            buildQuestion(m, drills[ord[0]]);
+          };
+
+          const nextQuestion = () => {
+            const next = pos + 1;
+            setPos(next);
+            if (next < order.length) buildQuestion(mode, drills[order[next]]);
+          };
+
+          const finished = mode !== 'explore' && pos >= order.length && order.length > 0;
+          const current = mode !== 'explore' && !finished ? drills[order[pos]] : null;
+
+          const markResult = (ok, sayText) => {
+            if (status === 'correct') return;
+            if (ok) {
+              setStatus('correct');
+              setScore(s => ({ correct: s.correct + (missed ? 0 : 1), total: s.total + 1 }));
+              addStars(missed ? 1 : 3);
+              speak(sayText);
+              if (pos + 1 >= order.length) triggerFireworks();
+            } else {
+              setMissed(true);
+              setStatus('wrong');
+              speak("Try again!");
+            }
+          };
+
+          // --- Nói theo (speech recognition) ---
+          const startSpeak = (idx, target) => {
+            const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SR) {
+              alert("Trình duyệt không hỗ trợ nhận diện giọng nói. Bé hãy bấm 🔊 và đọc to theo nhé!");
+              return;
+            }
+            try { recRef.current && recRef.current.abort(); } catch (e) {}
+            const rec = new SR();
+            rec.lang = 'en-US';
+            rec.continuous = false;
+            rec.onresult = (e) => {
+              const heard = e.results[0][0].transcript;
+              const clean = (s) => s.toLowerCase().replace(/[^a-z0-9' ]/g, '').split(/\s+/).filter(Boolean);
+              const t = clean(target);
+              const u = clean(heard);
+              const hit = t.filter(w => u.includes(w)).length;
+              const ratio = Math.round((hit / t.length) * 100);
+              const ok = ratio >= 60;
+              setSpeakResult(r => ({ ...r, [idx]: { heard, ratio, ok } }));
+              if (ok) { addStars(2); speak("Great job!"); } else { speak("Try again!"); }
+            };
+            rec.onerror = () => setListeningIdx(null);
+            rec.onend = () => setListeningIdx(null);
+            recRef.current = rec;
+            setListeningIdx(idx);
+            try { rec.start(); } catch (e) { setListeningIdx(null); }
+          };
+
+          const MODES = [
+            { id: 'explore', label: '🔁 Thay Từ & Nói Theo', color: 'bg-indigo-600' },
+            { id: 'fill', label: '🧩 Điền Từ Vào Câu', color: 'bg-emerald-600' },
+            { id: 'order', label: '🔀 Sắp Xếp Câu', color: 'bg-blue-600' },
+            { id: 'qa', label: '💬 Nhìn Hình – Hỏi Đáp', color: 'bg-rose-500' }
+          ];
+
+          const renderFill = (d) => {
+            const m = d.en.match(keyRegex(d.key));
+            const start = m ? m.index + m[1].length : 0;
+            const end = m ? start + m[2].length : 0;
+            return (
+              <div className="space-y-4">
+                <div className="text-6xl">{d.icon}</div>
+                <p className="text-xs font-bold text-slate-500">👉 {d.vn}</p>
+                <p className="text-xl font-black text-indigo-950">
+                  {d.en.slice(0, start)}
+                  <span className={`inline-block min-w-[80px] border-b-4 mx-1 px-2 ${status === 'correct' ? 'border-emerald-500 text-emerald-600' : 'border-indigo-400 text-transparent'}`}>
+                    {status === 'correct' ? d.en.slice(start, end) : '____'}
+                  </span>
+                  {d.en.slice(end)}
+                </p>
+                <div className="flex flex-wrap justify-center gap-3">
+                  {options.map(opt => (
+                    <button key={opt} onClick={() => markResult(opt === d.key.toLowerCase(), d.en)}
+                      className="bg-white border-2 border-emerald-300 hover:border-amber-400 px-5 py-2.5 rounded-2xl font-black text-indigo-950 shadow">
+                      {opt}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            );
+          };
+
+          const renderOrder = (d) => {
+            const target = tokenizeSentence(d.en).join(' ');
+            const pick = (w) => {
+              if (status === 'correct') return;
+              const nextPicked = [...picked, w];
+              const nextPool = pool.filter(p => p.id !== w.id);
+              setPicked(nextPicked);
+              setPool(nextPool);
+              if (nextPool.length === 0) markResult(nextPicked.map(p => p.word).join(' ') === target, d.en);
+            };
+            const unpick = (w) => {
+              if (status === 'correct') return;
+              setPicked(picked.filter(p => p.id !== w.id));
+              setPool([...pool, w]);
+              setStatus(null);
+            };
+            return (
+              <div className="space-y-4">
+                <div className="text-5xl">{d.icon}</div>
+                <div className="bg-white p-3 rounded-2xl border border-blue-200">
+                  <p className="text-xs text-blue-600 font-bold">Nghĩa tiếng Việt:</p>
+                  <h5 className="font-black text-indigo-950">"{d.vn}"</h5>
+                  <button onClick={() => speak(d.en)} className="mt-1 bg-amber-400 text-indigo-950 px-3 py-1 rounded-lg text-xs font-black">🔊 Nghe gợi ý</button>
+                </div>
+                <div className="min-h-[60px] bg-white p-3 rounded-2xl border-2 border-dashed border-blue-400 flex flex-wrap items-center justify-center gap-2">
+                  {picked.length === 0 && <span className="text-xs text-slate-400">Chạm các từ bên dưới theo đúng thứ tự...</span>}
+                  {picked.map(w => (
+                    <button key={w.id} onClick={() => unpick(w)} className="bg-amber-400 text-indigo-950 font-black px-3 py-1.5 rounded-xl text-sm shadow">{w.word}</button>
+                  ))}
+                </div>
+                <div className="flex flex-wrap justify-center gap-2">
+                  {pool.map(w => (
+                    <button key={w.id} onClick={() => pick(w)} className="bg-blue-600 text-white font-black px-3.5 py-2 rounded-xl text-sm shadow">{w.word}</button>
+                  ))}
+                </div>
+                {status === 'wrong' && <p className="text-[11px] font-bold text-slate-500">Chạm vào từ ở ô trên để gỡ ra và xếp lại nhé.</p>}
+              </div>
+            );
+          };
+
+          const renderQa = (d) => (
+            <div className="space-y-4">
+              <div className="text-6xl">{d.icon}</div>
+              <p className="text-xs font-bold text-slate-500">🖼️ Hình: {d.vn}</p>
+              {d.q ? (
+                <div className="bg-indigo-600 text-white p-3 rounded-2xl inline-block">
+                  <p className="text-lg font-black">{d.q}</p>
+                  <p className="text-[11px] text-indigo-100">{d.qVn}</p>
+                  <button onClick={() => speak(d.q)} className="mt-1 bg-indigo-500 px-3 py-1 rounded-lg text-xs font-bold">🔊 Nghe câu hỏi</button>
+                </div>
+              ) : (
+                <p className="font-black text-indigo-950">Câu nào đúng với bức hình?</p>
+              )}
+              <div className="grid gap-2 max-w-sm mx-auto">
+                {options.map(opt => {
+                  const answer = d.a || d.en;
+                  const isAns = opt === answer;
+                  return (
+                    <button key={opt} onClick={() => markResult(isAns, answer)}
+                      className={`text-left px-4 py-3 rounded-2xl font-black text-sm border-2 shadow transition-all ${
+                        status === 'correct' && isAns ? 'bg-emerald-500 text-white border-emerald-600' : 'bg-white text-indigo-950 border-rose-200 hover:border-amber-400'
+                      }`}>
+                      💬 {opt}
+                    </button>
+                  );
+                })}
+              </div>
+              {status === 'correct' && d.a && (
+                <p className="text-xs font-bold text-emerald-700">✅ {d.a} ({d.aVn}) — {d.en}</p>
+              )}
+            </div>
+          );
+
           return (
-            <div className="flex flex-col min-h-full bg-sky-100 text-slate-800">
-              {/* Header */}
-              <header className="bg-gradient-to-r from-indigo-600 to-sky-600 text-white p-4 shadow-md sticky top-0 z-40 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="text-2xl">🌟</span>
-                  <div>
-                    <h1 className="font-bold text-sm sm:text-base leading-tight">Kids English Explorer</h1>
-                    <p className="text-[10px] text-sky-200">Global Success Grade 2</p>
+            <div className="space-y-5">
+              <div className="bg-gradient-to-r from-indigo-50 to-sky-50 p-4 rounded-2xl border-2 border-indigo-200">
+                <span className="bg-indigo-600 text-white px-3 py-1 rounded-full text-[11px] font-black">🧱 Khung mẫu câu</span>
+                <p className="text-lg sm:text-xl font-black text-indigo-950 mt-2">{data.frame}</p>
+                <p className="text-xs font-bold text-slate-600 mt-1">💡 {data.tip}</p>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                {MODES.map(m => (
+                  <button key={m.id} onClick={() => startMode(m.id)}
+                    className={`px-3 py-2 rounded-xl text-xs font-black transition-all ${mode === m.id ? `${m.color} text-white shadow scale-105` : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}>
+                    {m.label}
+                  </button>
+                ))}
+              </div>
+
+              {mode === 'explore' && (
+                <div className="space-y-3">
+                  <p className="text-xs font-bold text-slate-600">Thay từ vựng vào khung câu ➜ bấm 🔊 nghe mẫu ➜ bấm 🎤 đọc to theo để nhận sao!</p>
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    {drills.map((d, idx) => (
+                      <div key={idx} className="bg-sky-50 p-3 rounded-2xl border border-sky-200 flex gap-3 items-center">
+                        <div className="text-3xl w-16 text-center shrink-0">{d.icon}</div>
+                        <div className="flex-1 min-w-0 space-y-1">
+                          {d.q && <p className="text-[11px] font-bold text-indigo-600">❓ {d.q}</p>}
+                          {d.a && <p className="text-[11px] font-black text-emerald-700">💬 {d.a} <span className="font-bold text-slate-500">({d.aVn})</span></p>}
+                          <p className="font-black text-indigo-950 text-sm"><HighlightKey text={d.en} keyWord={d.key} /></p>
+                          <p className="text-[11px] font-bold text-slate-500">{d.vn}</p>
+                          <div className="flex gap-2 pt-1">
+                            <button onClick={() => speak(d.q ? `${d.q} ${d.a ? d.a + ' ' + d.en : d.en}` : d.en)} className="bg-amber-400 hover:bg-amber-500 text-indigo-950 px-2.5 py-1 rounded-lg font-black text-[11px] shadow">🔊 Nghe</button>
+                            <button onClick={() => startSpeak(idx, d.en)} className={`px-2.5 py-1 rounded-lg font-black text-[11px] shadow text-white ${listeningIdx === idx ? 'bg-rose-600 animate-pulse' : 'bg-indigo-600 hover:bg-indigo-700'}`}>
+                              {listeningIdx === idx ? '🎙️ Đang nghe...' : '🎤 Nói theo'}
+                            </button>
+                          </div>
+                          {speakResult[idx] && (
+                            <p className={`text-[11px] font-black ${speakResult[idx].ok ? 'text-emerald-600' : 'text-rose-600'}`}>
+                              {speakResult[idx].ok ? '🎉 Giỏi lắm! +2 ⭐' : '💪 Thử lại nhé!'} (Bé nói: "{speakResult[idx].heard}")
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="text-center">
+                    <button onClick={() => startMode('fill')} className="bg-emerald-600 text-white font-black px-4 py-2 rounded-xl text-xs shadow">Bắt đầu luyện tập ➡️</button>
                   </div>
                 </div>
-                <div className="bg-amber-400 text-amber-950 font-bold px-3 py-1 rounded-full text-xs shadow flex items-center gap-1">
-                  ⭐ <span>{score}</span>
+              )}
+
+              {mode !== 'explore' && (
+                <div className="bg-slate-50 p-5 rounded-3xl border-2 border-slate-200 text-center space-y-4">
+                  <div className="flex items-center justify-between text-xs font-black text-slate-600">
+                    <span>Câu {Math.min(pos + 1, order.length)}/{order.length}</span>
+                    <span>✅ Đúng ngay lần đầu: {score.correct}</span>
+                  </div>
+                  <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                    <div className="bg-emerald-500 h-2 transition-all" style={{ width: `${(Math.min(pos + (status === 'correct' ? 1 : 0), order.length) / Math.max(order.length, 1)) * 100}%` }}></div>
+                  </div>
+
+                  {finished ? (
+                    <div className="space-y-3 py-4">
+                      <div className="text-6xl">{score.correct === order.length ? '🏆' : score.correct >= order.length / 2 ? '🌟' : '💪'}</div>
+                      <p className="text-lg font-black text-indigo-950">Hoàn thành! Bé làm đúng ngay {score.correct}/{order.length} câu.</p>
+                      <p className="text-xs font-bold text-slate-500">
+                        {score.correct === order.length ? 'Xuất sắc! Bé đã thuộc mẫu câu rồi!' : 'Luyện thêm một lượt nữa để nhớ lâu hơn nhé!'}
+                      </p>
+                      <div className="flex flex-wrap justify-center gap-2">
+                        <button onClick={() => startMode(mode)} className="bg-indigo-600 text-white font-black px-4 py-2 rounded-xl text-xs">🔄 Làm lại</button>
+                        {MODES.filter(m => m.id !== mode && m.id !== 'explore').map(m => (
+                          <button key={m.id} onClick={() => startMode(m.id)} className={`${m.color} text-white font-black px-4 py-2 rounded-xl text-xs`}>{m.label}</button>
+                        ))}
+                      </div>
+                    </div>
+                  ) : current && (
+                    <>
+                      {mode === 'fill' && renderFill(current)}
+                      {mode === 'order' && renderOrder(current)}
+                      {mode === 'qa' && renderQa(current)}
+
+                      {status === 'correct' && (
+                        <div className="space-y-2">
+                          <p className="bg-emerald-500 text-white p-2 rounded-xl font-black text-xs">🎉 Chính xác! "{current.en}"</p>
+                          <button onClick={nextQuestion} className="bg-indigo-600 text-white font-black px-4 py-2 rounded-xl text-xs">
+                            {pos + 1 >= order.length ? 'Xem kết quả 🏁' : 'Câu tiếp theo ➡️'}
+                          </button>
+                        </div>
+                      )}
+                      {status === 'wrong' && <p className="bg-rose-500 text-white p-2 rounded-xl font-black text-xs">❌ Chưa đúng rồi, bé thử lại nhé!</p>}
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+          );
+        }
+
+
+        function App() {
+          const [stars, setStars] = useState(() => parseInt(localStorage.getItem('gs_stars_v3') || '60'));
+          const [selectedTopicIdx, setSelectedTopicIdx] = useState(0);
+          const [activeTab, setActiveTab] = useState('lesson');
+          const [activeGameType, setActiveGameType] = useState('bubble');
+          const [isSlowSpeech, setIsSlowSpeech] = useState(false);
+
+          // Dialogue Mic
+          const [isListening, setIsListening] = useState(false);
+          const [transcript, setTranscript] = useState('');
+          const [speechScore, setSpeechScore] = useState(null);
+          const recognitionRef = useRef(null);
+
+          // Mini Games states
+          const [bubbleScore, setBubbleScore] = useState(0);
+          const [floatingBubbles, setFloatingBubbles] = useState([]);
+          const [bubbleTarget, setBubbleTarget] = useState(null);
+          const [bubbleMsg, setBubbleMsg] = useState('');
+
+          const [memoryCards, setMemoryCards] = useState([]);
+          const [flippedIndices, setFlippedIndices] = useState([]);
+          const [matchedIds, setMatchedIds] = useState([]);
+
+          const [spellingIdx, setSpellingIdx] = useState(0);
+          const [userTypedWord, setUserTypedWord] = useState('');
+          const [spellingResult, setSpellingResult] = useState(null);
+
+          const [builderIdx, setBuilderIdx] = useState(0);
+          const [selectedBuilderWords, setSelectedBuilderWords] = useState([]);
+          const [availableBuilderWords, setAvailableBuilderWords] = useState([]);
+          const [builderSuccess, setBuilderSuccess] = useState(false);
+
+          const [audioQuizIdx, setAudioQuizIdx] = useState(0);
+          const [audioQuizCorrect, setAudioQuizCorrect] = useState(null);
+          const [audioQuizOptions, setAudioQuizOptions] = useState([]);
+          const [audioQuizStatus, setAudioQuizStatus] = useState(null);
+
+          const [rocketTarget, setRocketTarget] = useState(null);
+          const [rocketOptions, setRocketOptions] = useState([]);
+          const [rocketTimer, setRocketTimer] = useState(10);
+          const [rocketLaunched, setRocketLaunched] = useState(false);
+          const [rocketStatus, setRocketStatus] = useState(null);
+          const rocketTimerRef = useRef(null);
+
+          const [frogPosition, setFrogPosition] = useState(0);
+          const [frogQuestion, setFrogQuestion] = useState(null);
+          const [frogOptions, setFrogOptions] = useState([]);
+          const [frogStatus, setFrogStatus] = useState(null);
+
+          // Review Test state
+          const [reviewSubmitted, setReviewSubmitted] = useState(false);
+          const [userAnswers, setUserAnswers] = useState({});
+          const [reviewScore, setReviewScore] = useState(0);
+
+          const currentTopic = GLOBAL_SUCCESS_TOPICS[selectedTopicIdx];
+
+          const addStars = (amount) => {
+            setStars(prev => {
+              const next = prev + amount;
+              localStorage.setItem('gs_stars_v3', next.toString());
+              return next;
+            });
+          };
+
+          const triggerFireworks = () => {
+            try {
+              confetti({ particleCount: 75, spread: 70, origin: { y: 0.6 } });
+            } catch (e) {}
+          };
+
+          const speak = (text) => {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            utterance.rate = isSlowSpeech ? 0.6 : 0.95;
+            window.speechSynthesis.speak(utterance);
+          };
+
+          useEffect(() => {
+            if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+              const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+              recognitionRef.current = new SpeechRecognition();
+              recognitionRef.current.continuous = false;
+              recognitionRef.current.lang = 'en-US';
+              recognitionRef.current.onresult = (e) => {
+                const text = e.results[0][0].transcript;
+                setTranscript(text);
+                setIsListening(false);
+                checkSpeechTarget(text, currentTopic.dialogue.steps[0].targetPhrase);
+              };
+              recognitionRef.current.onerror = () => setIsListening(false);
+              recognitionRef.current.onend = () => setIsListening(false);
+            }
+          }, [selectedTopicIdx]);
+
+          const toggleListen = () => {
+            if (!recognitionRef.current) {
+              alert("Trình duyệt không hỗ trợ nhận diện giọng nói. Bé có thể bấm gợi ý bên dưới!");
+              return;
+            }
+            if (isListening) {
+              recognitionRef.current.stop();
+              setIsListening(false);
+            } else {
+              setTranscript('');
+              setSpeechScore(null);
+              setIsListening(true);
+              try { recognitionRef.current.start(); } catch (e) { setIsListening(false); }
+            }
+          };
+
+          const checkSpeechTarget = (user, target) => {
+            const cleanT = target.toLowerCase().replace(/[^a-z0-9 ]/g, '');
+            const cleanU = user.toLowerCase().replace(/[^a-z0-9 ]/g, '');
+            const tWords = cleanT.split(' ');
+            const uWords = cleanU.split(' ');
+            let match = 0;
+            tWords.forEach(w => { if (uWords.includes(w)) match++; });
+            const ratio = Math.round((match / tWords.length) * 100);
+            if (ratio >= 40 || cleanU.includes(cleanT)) {
+              setSpeechScore({ msg: "🎉 Phát âm chính xác! Xuất sắc lắm!", success: true });
+              addStars(5);
+              triggerFireworks();
+              speak("Great job!");
+            } else {
+              setSpeechScore({ msg: "💪 Thử phát âm lại theo giọng mẫu nhé!", success: false });
+              speak("Try again!");
+            }
+          };
+
+          const initBubbleGame = () => {
+            const vocab = currentTopic.vocab;
+            const target = vocab[Math.floor(Math.random() * vocab.length)];
+            setBubbleTarget(target);
+            speak("Pop bubble: " + target.word);
+            const shuffled = [...vocab].sort(() => Math.random() - 0.5).slice(0, 4);
+            if (!shuffled.some(s => s.id === target.id)) shuffled[0] = target;
+            setFloatingBubbles(shuffled.sort(() => Math.random() - 0.5));
+            setBubbleMsg('');
+          };
+
+          const handlePop = (item) => {
+            if (item.id === bubbleTarget.id) {
+              setBubbleMsg("🎈 Chính xác! Bong bóng nổ tung!");
+              setBubbleScore(s => s + 1);
+              addStars(3);
+              triggerFireworks();
+              speak("Correct pop!");
+              setTimeout(initBubbleGame, 1200);
+            } else {
+              setBubbleMsg("❌ Không phải bong bóng này, thử lại nhé!");
+              speak("Try again!");
+            }
+          };
+
+          const initRocketGame = () => {
+            if (rocketTimerRef.current) clearInterval(rocketTimerRef.current);
+            const vocab = currentTopic.vocab;
+            const target = vocab[Math.floor(Math.random() * vocab.length)];
+            setRocketTarget(target);
+            const others = vocab.filter(v => v.id !== target.id).sort(() => Math.random() - 0.5).slice(0, 2);
+            setRocketOptions([target, ...others].sort(() => Math.random() - 0.5));
+            setRocketTimer(10);
+            setRocketLaunched(false);
+            setRocketStatus(null);
+            speak("Fuel rocket with: " + target.word);
+
+            rocketTimerRef.current = setInterval(() => {
+              setRocketTimer(prev => {
+                if (prev <= 1) {
+                  clearInterval(rocketTimerRef.current);
+                  setRocketStatus('timeout');
+                  speak("Time is up!");
+                  return 0;
+                }
+                return prev - 1;
+              });
+            }, 1000);
+          };
+
+          const handleRocket = (id) => {
+            if (rocketTimerRef.current) clearInterval(rocketTimerRef.current);
+            if (id === rocketTarget.id) {
+              setRocketLaunched(true);
+              setRocketStatus('success');
+              addStars(5);
+              triggerFireworks();
+              speak("Rocket launched successfully!");
+            } else {
+              setRocketStatus('failed');
+              speak("Wrong fuel!");
+            }
+          };
+
+          const initFrogGame = (pos = 0) => {
+            setFrogPosition(pos);
+            setFrogStatus(null);
+            const quizList = currentTopic.sentenceQuiz || [];
+            const quiz = quizList[pos % quizList.length] || { fullSentence: currentTopic.lesson.sampleSentences[0].en, vn: currentTopic.lesson.sampleSentences[0].vn };
+            const words = quiz.fullSentence.split(' ');
+            const mIdx = Math.floor(Math.random() * words.length);
+            const target = words[mIdx];
+            const display = words.map((w, i) => i === mIdx ? '______' : w).join(' ');
+            const vocabWords = currentTopic.vocab.map(v => v.word);
+            const dist = vocabWords.filter(w => w.toLowerCase() !== target.toLowerCase()).sort(() => Math.random() - 0.5).slice(0, 2);
+            setFrogQuestion({ display, target, vn: quiz.vn });
+            setFrogOptions([target, ...dist].sort(() => Math.random() - 0.5));
+            speak(quiz.fullSentence);
+          };
+
+          const handleFrog = (opt) => {
+            if (opt.toLowerCase() === frogQuestion.target.toLowerCase()) {
+              const next = frogPosition + 1;
+              setFrogPosition(next);
+              setFrogStatus('correct');
+              addStars(4);
+              speak("Ribbit! Correct!");
+              if (next >= 4) {
+                triggerFireworks();
+                speak("Froggy reached the trophy!");
+              } else {
+                setTimeout(() => initFrogGame(next), 1000);
+              }
+            } else {
+              setFrogStatus('wrong');
+              speak("Oops! Try again!");
+            }
+          };
+
+          const initMemoryGame = () => {
+            const vocab = currentTopic.vocab.slice(0, 4);
+            const deck = [];
+            vocab.forEach(v => {
+              deck.push({ id: v.id + '_img', vocabId: v.id, type: 'img', content: v.icon, label: v.vn });
+              deck.push({ id: v.id + '_txt', vocabId: v.id, type: 'txt', content: v.word, label: v.word });
+            });
+            deck.sort(() => Math.random() - 0.5);
+            setMemoryCards(deck);
+            setFlippedIndices([]);
+            setMatchedIds([]);
+          };
+
+          const handleCardClick = (idx) => {
+            if (flippedIndices.length === 2 || flippedIndices.includes(idx) || matchedIds.includes(memoryCards[idx].vocabId)) return;
+            const nextFlipped = [...flippedIndices, idx];
+            setFlippedIndices(nextFlipped);
+            if (memoryCards[idx].type === 'txt') speak(memoryCards[idx].content);
+
+            if (nextFlipped.length === 2) {
+              const c1 = memoryCards[nextFlipped[0]];
+              const c2 = memoryCards[nextFlipped[1]];
+              if (c1.vocabId === c2.vocabId) {
+                setMatchedIds(prev => [...prev, c1.vocabId]);
+                setFlippedIndices([]);
+                addStars(3);
+                speak("Great match!");
+                if (matchedIds.length + 1 === 4) triggerFireworks();
+              } else {
+                setTimeout(() => setFlippedIndices([]), 1000);
+              }
+            }
+          };
+
+          const initSpellingGame = (idx = 0) => {
+            const v = currentTopic.vocab[idx % currentTopic.vocab.length];
+            setSpellingIdx(idx);
+            setUserTypedWord('');
+            setSpellingResult(null);
+            speak(v.word);
+          };
+
+          const checkSpelling = () => {
+            const v = currentTopic.vocab[spellingIdx % currentTopic.vocab.length];
+            if (userTypedWord.trim().toLowerCase() === v.word.toLowerCase()) {
+              setSpellingResult({ success: true, msg: "🎉 Chính xác tuyệt vời!" });
+              addStars(5);
+              triggerFireworks();
+              speak("Correct!");
+            } else {
+              setSpellingResult({ success: false, msg: `❌ Chưa đúng. Đáp án: ${v.word}` });
+              speak("Try again!");
+            }
+          };
+
+          const initSentenceBuilder = (idx = 0) => {
+            setBuilderIdx(idx);
+            const quizList = currentTopic.sentenceQuiz || [];
+            if (!quizList[idx]) return;
+            const data = quizList[idx];
+            const shuffled = [...data.words].sort(() => Math.random() - 0.5);
+            setAvailableBuilderWords(shuffled.map((w, i) => ({ id: i, word: w })));
+            setSelectedBuilderWords([]);
+            setBuilderSuccess(false);
+            speak(data.fullSentence);
+          };
+
+          const handlePickBuilderWord = (wObj) => {
+            if (builderSuccess) return;
+            const nextSel = [...selectedBuilderWords, wObj];
+            setSelectedBuilderWords(nextSel);
+            setAvailableBuilderWords(prev => prev.filter(w => w.id !== wObj.id));
+
+            const cur = nextSel.map(w => w.word).join(' ');
+            const target = (currentTopic.sentenceQuiz[builderIdx] || {}).fullSentence;
+            if (cur === target) {
+              setBuilderSuccess(true);
+              addStars(5);
+              triggerFireworks();
+              speak("Wonderful sentence!");
+            }
+          };
+
+          const initAudioQuiz = (idx = 0) => {
+            setAudioQuizIdx(idx);
+            const vocab = currentTopic.vocab;
+            const correct = vocab[idx % vocab.length];
+            setAudioQuizCorrect(correct);
+            const others = vocab.filter(v => v.id !== correct.id).sort(() => Math.random() - 0.5).slice(0, 2);
+            setAudioQuizOptions([correct, ...others].sort(() => Math.random() - 0.5));
+            setAudioQuizStatus(null);
+            speak(correct.word);
+          };
+
+          const handleAudioQuizSelect = (opt) => {
+            if (opt.id === audioQuizCorrect.id) {
+              setAudioQuizStatus('correct');
+              addStars(5);
+              triggerFireworks();
+              speak("Correct!");
+            } else {
+              setAudioQuizStatus('wrong');
+              speak("Oops! Try again!");
+            }
+          };
+
+          useEffect(() => {
+            if (activeTab === 'games') {
+              if (activeGameType === 'bubble') initBubbleGame();
+              if (activeGameType === 'rocket') initRocketGame();
+              if (activeGameType === 'frog') initFrogGame(0);
+              if (activeGameType === 'memory') initMemoryGame();
+              if (activeGameType === 'spelling') initSpellingGame(0);
+              if (activeGameType === 'builder') initSentenceBuilder(0);
+              if (activeGameType === 'audioquiz') initAudioQuiz(0);
+            }
+          }, [activeTab, activeGameType, selectedTopicIdx]);
+
+          return (
+            <div className="min-h-screen bg-sky-100 font-sans pb-16">
+              {/* HEADER */}
+              <header className="bg-white border-b-4 border-sky-300 shadow-md sticky top-0 z-50 px-4 py-3">
+                <div className="max-w-6xl mx-auto flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-amber-400 rounded-2xl flex items-center justify-center text-2xl shadow border-2 border-amber-500">
+                      🎒
+                    </div>
+                    <div>
+                      <h1 className="text-xl font-black text-indigo-950">KIDS ENGLISH EXPLORER</h1>
+                      <p className="text-xs font-bold text-sky-600">Global Success Grade 2 • 16 Units</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 bg-amber-100 border-2 border-amber-300 px-4 py-1.5 rounded-2xl shadow-sm">
+                    <span className="text-xl">⭐</span>
+                    <span className="font-black text-amber-950 text-sm">{stars} Sao</span>
+                  </div>
                 </div>
               </header>
 
-              {/* Nội dung */}
-              <main className="flex-1 p-4 pb-20">
-                {currentView === 'home' && (
-                  <div>
-                    <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white p-4 rounded-2xl shadow-md mb-5">
-                      <h2 className="text-lg font-black mb-1">Chào bé yêu! 🎒</h2>
-                      <p className="text-xs opacity-95">Chọn Unit để khám phá tiếng Anh lớp 2 nào!</p>
+              {/* MAIN BODY */}
+              <main className="max-w-6xl mx-auto px-4 mt-6 grid grid-cols-1 md:grid-cols-4 gap-6">
+                
+                {/* SIDEBAR UNITS */}
+                <div className="md:col-span-1 space-y-2">
+                  <h3 className="font-black text-xs text-indigo-900 uppercase tracking-wider px-1">
+                    📚 Danh Sách Các Unit (1-16)
+                  </h3>
+                  <div className="space-y-2 max-h-[75vh] overflow-y-auto pr-1">
+                    {GLOBAL_SUCCESS_TOPICS.map((topic, idx) => (
+                      <button
+                        key={topic.id}
+                        onClick={() => {
+                          setSelectedTopicIdx(idx);
+                          setActiveTab('lesson');
+                        }}
+                        className={`w-full text-left p-3 rounded-2xl border-3 transition-all flex items-center gap-3 ${
+                          selectedTopicIdx === idx
+                            ? `bg-white ${topic.borderColor} shadow-lg ring-2 ring-indigo-400 scale-102`
+                            : 'bg-white/70 border-slate-200 hover:bg-white'
+                        }`}
+                      >
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl bg-gradient-to-br ${topic.color} text-white shadow`}>
+                          {topic.icon}
+                        </div>
+                        <div className="flex-1 overflow-hidden">
+                          <p className="font-black text-xs text-slate-800 truncate">{topic.title}</p>
+                          <p className="text-[11px] font-bold text-slate-500 truncate">{topic.subtitle}</p>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* CONTENT AREA */}
+                <div className="md:col-span-3 space-y-6">
+                  
+                  {/* TOPIC BANNER */}
+                  <div className={`bg-gradient-to-r ${currentTopic.color} text-white p-6 rounded-3xl shadow-xl flex items-center justify-between`}>
+                    <div>
+                      <span className="bg-white/20 px-3 py-1 rounded-full text-xs font-black">{currentTopic.subtitle}</span>
+                      <h2 className="text-2xl sm:text-3xl font-black mt-2">{currentTopic.title}</h2>
+                      <p className="text-xs font-bold text-white/90 mt-1">{currentTopic.lesson.summary}</p>
+                    </div>
+                    <div className="text-6xl">{currentTopic.icon}</div>
+                  </div>
+
+                  {/* TABS CONTAINER */}
+                  <div className="bg-white rounded-3xl p-5 shadow-lg border-2 border-sky-200 space-y-6">
+                    
+                    {/* TAB NAV */}
+                    <div className="flex border-b-2 border-slate-100 pb-3 gap-2 overflow-x-auto items-center">
+                      {[
+                        { id: 'lesson', label: '📖 Bài Học', color: 'bg-indigo-600' },
+                        { id: 'patterns', label: '✍️ Luyện Mẫu Câu', color: 'bg-fuchsia-600' },
+                        { id: 'vocab', label: '🗂️ Từ Vựng', color: 'bg-emerald-600' },
+                        { id: 'dialogue', label: '💬 Đối Thoại', color: 'bg-amber-500' },
+                        { id: 'games', label: '🎮 7 Mini Games', color: 'bg-rose-500' },
+                        ...((selectedTopicIdx + 1) % 2 === 0 ? [{ id: 'review_test', label: `🏆 Kiểm Tra Review 1-${selectedTopicIdx + 1}`, color: 'bg-purple-600 animate-pulse' }] : [])
+                      ].map(tab => (
+                        <button
+                          key={tab.id}
+                          onClick={() => {
+                            setActiveTab(tab.id);
+                            if (tab.id === 'review_test') {
+                              setReviewSubmitted(false);
+                              setUserAnswers({});
+                            }
+                          }}
+                          className={`px-4 py-2.5 rounded-2xl font-black text-xs sm:text-sm transition-all whitespace-nowrap ${
+                            activeTab === tab.id ? `${tab.color} text-white shadow-md scale-105` : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                          }`}
+                        >
+                          {tab.label}
+                        </button>
+                      ))}
+
+                      <div className="ml-auto flex items-center gap-1 bg-slate-100 p-1 rounded-2xl text-xs font-bold">
+                        <button
+                          onClick={() => setIsSlowSpeech(false)}
+                          className={`px-2 py-1 rounded-xl ${!isSlowSpeech ? 'bg-white text-indigo-950 shadow' : 'text-slate-500'}`}
+                        >
+                          🐇 Nhanh
+                        </button>
+                        <button
+                          onClick={() => setIsSlowSpeech(true)}
+                          className={`px-2 py-1 rounded-xl ${isSlowSpeech ? 'bg-white text-indigo-950 shadow' : 'text-slate-500'}`}
+                        >
+                          🐢 Chậm
+                        </button>
+                      </div>
                     </div>
 
-                    <div className="grid grid-cols-1 gap-3">
-                      {GLOBAL_SUCCESS_TOPICS.map((unit) => (
-                        <div 
-                          key={unit.id}
-                          onClick={() => { setSelectedUnit(unit); setCurrentView('unit_detail'); }}
-                          className={`bg-white border
+                    {/* TAB 1: LESSON */}
+                    {activeTab === 'lesson' && (
+                      <div className="space-y-4">
+                        <div className="bg-indigo-50 p-4 rounded-2xl border border-indigo-200">
+                          <h4 className="font-black text-indigo-900 text-sm">✨ Mẫu câu trọng tâm:</h4>
+                          <p className="text-lg font-black text-indigo-950 mt-1">{currentTopic.lesson.keyGrammar}</p>
+                        </div>
+
+                        <div className="space-y-2">
+                          <h4 className="font-black text-slate-800 text-xs">Mẫu câu ví dụ:</h4>
+                          {currentTopic.lesson.sampleSentences.map((s, idx) => (
+                            <div key={idx} className="bg-sky-50 p-4 rounded-2xl border border-sky-200 flex items-center justify-between">
+                              <div>
+                                <p className="font-black text-indigo-950 text-sm">{s.en}</p>
+                                <p className="text-xs font-bold text-slate-500">{s.vn}</p>
+                              </div>
+                              <button
+                                onClick={() => speak(s.en)}
+                                className="bg-amber-400 hover:bg-amber-500 text-indigo-950 px-3.5 py-2 rounded-xl font-black text-xs shadow"
+                              >
+                                🔊 Nghe
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+
+                        <button
+                          onClick={() => setActiveTab('patterns')}
+                          className="w-full bg-gradient-to-r from-fuchsia-500 to-indigo-600 text-white p-4 rounded-2xl font-black text-sm shadow-lg hover:scale-[1.01] transition-all"
+                        >
+                          ✍️ Luyện thêm {(PATTERN_PRACTICE[currentTopic.id] || { drills: [] }).drills.length} câu tương tự với từ vựng của Unit này ➡️
+                        </button>
+                      </div>
+                    )}
+
+                    {/* TAB: PATTERN PRACTICE (luyện mẫu câu nâng cao) */}
+                    {activeTab === 'patterns' && (
+                      <PatternPractice key={currentTopic.id} topic={currentTopic} speak={speak} addStars={addStars} triggerFireworks={triggerFireworks} />
+                    )}
+
+                    {/* TAB 2: VOCABULARY */}
+                    {activeTab === 'vocab' && (
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                        {currentTopic.vocab.map(v => (
+                          <div key={v.id} className="bg-slate-50 border-2 border-slate-200 p-4 rounded-3xl flex flex-col items-center text-center space-y-2 hover:border-indigo-400 transition-all">
+                            <span className="text-5xl">{v.icon}</span>
+                            <h4 className="font-black text-indigo-950 text-base">{v.word}</h4>
+                            <p className="text-[11px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full">{v.sound}</p>
+                            <p className="text-xs font-bold text-slate-500">{v.vn}</p>
+                            <button
+                              onClick={() => speak(v.word)}
+                              className="w-full bg-amber-400 hover:bg-amber-500 text-indigo-950 font-black py-2 rounded-2xl text-xs shadow mt-1"
+                            >
+                              🔊 Phát Âm
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* TAB 3: DIALOGUE */}
+                    {activeTab === 'dialogue' && (
+                      <div className="space-y-4 max-w-lg mx-auto">
+                        <div className="bg-indigo-600 text-white p-4 rounded-3xl rounded-tl-none space-y-1 shadow">
+                          <p className="text-xs font-bold text-indigo-200">Robot Bạn Học:</p>
+                          <p className="text-lg font-black">{currentTopic.dialogue.steps[0].botText}</p>
+                          <p className="text-xs text-indigo-100">👉 Dịch: {currentTopic.dialogue.steps[0].botVn}</p>
+                          <button
+                            onClick={() => speak(currentTopic.dialogue.steps[0].botText)}
+                            className="mt-2 bg-indigo-500 text-white px-3 py-1 rounded-xl text-xs font-bold"
+                          >
+                            🔊 Nghe câu hỏi
+                          </button>
+                        </div>
+
+                        <div className="bg-sky-50 border-2 border-sky-300 p-5 rounded-3xl space-y-4 text-center">
+                          <p className="text-xs font-black text-indigo-900">Bé hãy nói hoặc chọn câu trả lời:</p>
+                          <button
+                            onClick={toggleListen}
+                            className={`w-16 h-16 rounded-full mx-auto flex items-center justify-center shadow-lg text-2xl transition-all ${isListening ? 'bg-rose-600 text-white animate-pulse' : 'bg-amber-400 text-indigo-950 hover:bg-amber-500'}`}
+                          >
+                            {isListening ? '🛑' : '🎙️'}
+                          </button>
+                          <p className="text-xs font-bold text-slate-500">{isListening ? "Đang nghe bé nói..." : "Bấm Micro để nói"}</p>
+
+                          {transcript && <p className="text-xs font-bold text-indigo-950 bg-white p-2 rounded-xl">Bé nói: "{transcript}"</p>}
+                          {speechScore && <p className={`text-xs font-black p-2 rounded-xl text-white ${speechScore.success ? 'bg-emerald-500' : 'bg-amber-500'}`}>{speechScore.msg}</p>}
+
+                          <div className="pt-2 border-t border-sky-200">
+                            <p className="text-[11px] font-bold text-slate-400 mb-2">Hoặc chọn gợi ý trả lời:</p>
+                            <button
+                              onClick={() => checkSpeechTarget(currentTopic.dialogue.steps[0].targetPhrase, currentTopic.dialogue.steps[0].targetPhrase)}
+                              className="bg-white hover:bg-amber-100 border border-sky-300 px-3 py-2 rounded-xl text-xs font-black text-indigo-950 shadow-sm"
+                            >
+                              💬 {currentTopic.dialogue.steps[0].targetPhrase}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* TAB 4: 7 MINI GAMES */}
+                    {activeTab === 'games' && (
+                      <div className="space-y-6">
+                        <div className="flex flex-wrap gap-2 border-b-2 border-slate-100 pb-4">
+                          {[
+                            { id: 'bubble', label: '🎈 Bắn Bong Bóng' },
+                            { id: 'rocket', label: '🚀 Bắn Tên Lửa' },
+                            { id: 'frog', label: '🐸 Ếch Nhảy Sông' },
+                            { id: 'memory', label: '🃏 Lật Thẻ Bài' },
+                            { id: 'spelling', label: '✍️ Viết Từ Vựng' },
+                            { id: 'builder', label: '🍬 Ghép Câu' },
+                            { id: 'audioquiz', label: '🎧 Nghe Đoán Từ' }
+                          ].map(g => (
+                            <button
+                              key={g.id}
+                              onClick={() => setActiveGameType(g.id)}
+                              className={`px-3 py-2 rounded-2xl font-black text-xs transition-all ${
+                                activeGameType === g.id ? 'bg-rose-600 text-white shadow-md scale-105' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                              }`}
+                            >
+                              {g.label}
+                            </button>
+                          ))}
+                        </div>
+
+                        {/* GAME: BUBBLE POP */}
+                        {activeGameType === 'bubble' && (
+                          <div className="bg-sky-50 border-3 border-sky-300 p-6 rounded-3xl text-center space-y-6">
+                            <div className="flex items-center justify-between bg-white px-4 py-2 rounded-2xl shadow-sm">
+                              <span className="font-black text-indigo-950 text-xs">Điểm Bắn: <span className="text-rose-600 text-sm">{bubbleScore}</span></span>
+                              {bubbleTarget && (
+                                <button onClick={() => speak(bubbleTarget.word)} className="bg-amber-400 text-indigo-950 px-3 py-1 rounded-xl text-xs font-black">
+                                  🔊 Nghe Từ: {bubbleTarget.word}
+                                </button>
+                              )}
+                            </div>
+
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-2">
+                              {floatingBubbles.map((v) => (
+                                <button
+                                  key={v.id}
+                                  onClick={() => handlePop(v)}
+                                  className="h-28 rounded-full bg-gradient-to-tr from-sky-400 via-pink-300 to-amber-200 border-4 border-white shadow-lg flex flex-col items-center justify-center transform hover:scale-110 active:scale-95 transition-all animate-bounce"
+                                >
+                                  <span className="text-3xl">{v.icon}</span>
+                                  <span className="text-xs font-black text-indigo-950 bg-white/80 px-2 py-0.5 rounded-full mt-1">{v.word}</span>
+                                </button>
+                              ))}
+                            </div>
+                            {bubbleMsg && <p className="text-xs font-black text-indigo-950 bg-white p-2 rounded-xl">{bubbleMsg}</p>}
+                          </div>
+                        )}
+
+                        {/* GAME: ROCKET RESCUE */}
+                        {activeGameType === 'rocket' && (
+                          <div className="bg-slate-900 text-white p-6 rounded-3xl border-4 border-indigo-500 text-center space-y-6">
+                            <div className="flex justify-between items-center text-xs font-black text-indigo-300">
+                              <span>🚀 BẮN TÊN LỬA TỪ VỰNG</span>
+                              <span>Đếm ngược: {rocketTimer}s</span>
+                            </div>
+                            <div className="text-7xl py-2">{rocketLaunched ? '🚀🔥✨' : '🚀'}</div>
+                            {rocketTarget && (
+                              <p className="text-sm font-bold text-slate-300">Chọn nhiên liệu chứa từ: <span className="text-amber-300 font-black text-lg">"{rocketTarget.word}"</span> ({rocketTarget.vn})</p>
+                            )}
+                            <div className="grid grid-cols-3 gap-3">
+                              {rocketOptions.map(opt => (
+                                <button
+                                  key={opt.id}
+                                  disabled={rocketLaunched}
+                                  onClick={() => handleRocket(opt.id)}
+                                  className="bg-indigo-800 hover:bg-indigo-700 p-3 rounded-2xl font-black text-xs text-white border-2 border-indigo-400 shadow"
+                                >
+                                  🧪 {opt.word} ({opt.icon})
+                                </button>
+                              ))}
+                            </div>
+                            {rocketStatus === 'success' && <p className="text-xs font-black text-emerald-400 animate-bounce">🎉 Phóng tên lửa thành công! +5 Sao ⭐</p>}
+                            <div>
+                              <button onClick={initRocketGame} className="bg-amber-400 text-indigo-950 font-black px-5 py-2 rounded-xl text-xs shadow">Chơi Lại 🔄</button>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* GAME: FROG JUMP */}
+                        {activeGameType === 'frog' && (
+                          <div className="bg-emerald-900 text-white p-6 rounded-3xl border-4 border-emerald-400 text-center space-y-6">
+                            <div className="flex justify-between items-center text-xs font-black text-emerald-300">
+                              <span>🐸 ẾCH NHẢY QUA SÔNG</span>
+                              <span>Vị trí: {frogPosition}/4 Lá</span>
+                            </div>
+                            <div className="flex justify-around items-center bg-sky-800 p-4 rounded-2xl border border-sky-400">
+                              {[0, 1, 2, 3, 4].map(step => (
+                                <div key={step} className={`w-12 h-12 rounded-full border-2 flex items-center justify-center font-black text-xl ${frogPosition === step ? 'bg-emerald-400 text-slate-900 border-white scale-110' : 'bg-emerald-950 border-emerald-600'}`}>
+                                  {frogPosition === step ? '🐸' : step === 4 ? '🏆' : '🪷'}
+                                </div>
+                              ))}
+                            </div>
+                            {frogPosition < 4 && frogQuestion && (
+                              <div className="bg-emerald-950 p-5 rounded-3xl space-y-3 max-w-lg mx-auto border border-emerald-600">
+                                <p className="text-xs text-emerald-300 font-bold">Điền từ còn thiếu để ếch nhảy sang lá tiếp theo:</p>
+                                <h4 className="text-2xl font-black text-amber-300">"{frogQuestion.display}"</h4>
+                                <p className="text-xs text-slate-300">👉 Nghĩa: {frogQuestion.vn}</p>
+                                <div className="flex justify-center gap-3 pt-2">
+                                  {frogOptions.map((opt, i) => (
+                                    <button key={i} onClick={() => handleFrog(opt)} className="bg-emerald-500 hover:bg-emerald-400 text-emerald-950 font-black px-4 py-2 rounded-2xl shadow">
+                                      🍃 {opt}
+                                    </button>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                            <div>
+                              <button onClick={() => initFrogGame(0)} className="bg-amber-400 text-emerald-950 font-black px-5 py-2 rounded-xl text-xs shadow">Bắt Đầu Lại 🔄</button>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* GAME: MEMORY MATCH */}
+                        {activeGameType === 'memory' && (
+                          <div className="space-y-4 text-center">
+                            <div className="flex items-center justify-between bg-purple-50 p-3 rounded-2xl border border-purple-200">
+                              <span className="text-xs font-black text-purple-900">Lật các thẻ bài để ghép đúng Từ ↔ Hình Tranh!</span>
+                              <button onClick={initMemoryGame} className="text-xs font-black text-purple-600 hover:underline">Tráo Thẻ 🔄</button>
+                            </div>
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                              {memoryCards.map((card, idx) => {
+                                const isFlipped = flippedIndices.includes(idx) || matchedIds.includes(card.vocabId);
+                                const isMatched = matchedIds.includes(card.vocabId);
+                                return (
+                                  <div
+                                    key={card.id}
+                                    onClick={() => handleCardClick(idx)}
+                                    className={`h-32 rounded-3xl cursor-pointer border-4 flex flex-col items-center justify-center p-2 transition-all ${
+                                      isFlipped ? (isMatched ? 'bg-emerald-100 border-emerald-400' : 'bg-white border-purple-400') : 'bg-gradient-to-br from-purple-500 to-indigo-600 border-purple-300 text-white font-black text-3xl'
+                                    }`}
+                                  >
+                                    {isFlipped ? (
+                                      card.type === 'img' ? <span className="text-4xl">{card.content}</span> : <span className="text-base font-black text-purple-950">{card.content}</span>
+                                    ) : '❓'}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* GAME: SPELLING */}
+                        {activeGameType === 'spelling' && (
+                          <div className="space-y-4 max-w-md mx-auto bg-rose-50 p-6 rounded-3xl border-2 border-rose-200 text-center">
+                            {(() => {
+                              const v = currentTopic.vocab[spellingIdx % currentTopic.vocab.length];
+                              return (
+                                <div className="space-y-3">
+                                  <span className="bg-rose-600 text-white px-3 py-1 rounded-full text-xs font-black">✍️ Viết Lại Từ Vựng ({spellingIdx + 1}/{currentTopic.vocab.length})</span>
+                                  <div className="text-6xl">{v.icon}</div>
+                                  <p className="text-xs font-bold text-slate-600">Nghĩa: <span className="text-indigo-950 font-black">{v.vn}</span></p>
+                                  <button onClick={() => speak(v.word)} className="bg-amber-400 text-indigo-950 px-3 py-1.5 rounded-xl text-xs font-black mx-auto">🔊 Nghe từ</button>
+                                  <div className="flex gap-2">
+                                    <input
+                                      type="text"
+                                      value={userTypedWord}
+                                      onChange={(e) => setUserTypedWord(e.target.value)}
+                                      placeholder="Nhập từ tiếng Anh..."
+                                      className="flex-1 bg-white border-2 border-rose-300 px-4 py-2.5 rounded-2xl font-bold text-center text-sm"
+                                    />
+                                    <button onClick={checkSpelling} className="bg-rose-500 text-white font-black px-4 py-2.5 rounded-2xl text-xs">Kiểm Tra</button>
+                                  </div>
+                                  {spellingResult && <p className={`text-xs font-black p-2 rounded-xl text-white ${spellingResult.success ? 'bg-emerald-500' : 'bg-rose-600'}`}>{spellingResult.msg}</p>}
+                                  <button onClick={() => initSpellingGame(spellingIdx + 1)} className="text-xs font-black text-indigo-600 hover:underline">Từ Tiếp Theo ➡️</button>
+                                </div>
+                              );
+                            })()}
+                          </div>
+                        )}
+
+                        {/* GAME: SENTENCE BUILDER */}
+                        {activeGameType === 'builder' && (
+                          <div className="space-y-4 max-w-lg mx-auto bg-blue-50 p-6 rounded-3xl border-2 border-blue-200 text-center">
+                            {(() => {
+                              const quizList = currentTopic.sentenceQuiz || [];
+                              const data = quizList[builderIdx] || { vn: currentTopic.lesson.sampleSentences[0].vn, fullSentence: currentTopic.lesson.sampleSentences[0].en };
+                              return (
+                                <div className="space-y-4">
+                                  <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-black">🍬 Ghép Câu Hoàn Chỉnh</span>
+                                  <div className="bg-white p-3 rounded-2xl border border-blue-200">
+                                    <p className="text-xs text-blue-600 font-bold">Nghĩa tiếng Việt:</p>
+                                    <h5 className="font-black text-indigo-950">"{data.vn}"</h5>
+                                    <button onClick={() => speak(data.fullSentence)} className="mt-1 bg-amber-400 text-indigo-950 px-3 py-1 rounded-lg text-xs font-black">🔊 Nghe mẫu</button>
+                                  </div>
+                                  <div className="min-h-[60px] bg-white p-3 rounded-2xl border-2 border-dashed border-blue-400 flex flex-wrap items-center justify-center gap-2">
+                                    {selectedBuilderWords.length === 0 && <span className="text-xs text-slate-400">Chạm viên kẹo từ phía dưới để xếp câu...</span>}
+                                    {selectedBuilderWords.map(w => (
+                                      <button key={w.id} onClick={() => {
+                                        setSelectedBuilderWords(prev => prev.filter(i => i.id !== w.id));
+                                        setAvailableBuilderWords(prev => [...prev, w]);
+                                      }} className="bg-amber-400 text-indigo-950 font-black px-3 py-1.5 rounded-xl text-sm shadow">
+                                        🍬 {w.word}
+                                      </button>
+                                    ))}
+                                  </div>
+                                  <div className="flex flex-wrap justify-center gap-2">
+                                    {availableBuilderWords.map(w => (
+                                      <button key={w.id} onClick={() => handlePickBuilderWord(w)} className="bg-indigo-600 text-white font-black px-3.5 py-2 rounded-xl text-sm shadow">
+                                        ➕ {w.word}
+                                      </button>
+                                    ))}
+                                  </div>
+                                  {builderSuccess && <p className="bg-emerald-500 text-white p-2 rounded-xl font-black text-xs animate-bounce">🎉 Ghép câu chính xác! +5 Sao ⭐</p>}
+                                  <div>
+                                    <button onClick={() => initSentenceBuilder(builderIdx + 1)} className="bg-blue-600 text-white font-black px-4 py-2 rounded-xl text-xs">Câu Tiếp Theo ➡️</button>
+                                  </div>
+                                </div>
+                              );
+                            })()}
+                          </div>
+                        )}
+
+                        {/* GAME: AUDIO QUIZ */}
+                        {activeGameType === 'audioquiz' && (
+                          <div className="bg-cyan-50 p-6 rounded-3xl border-2 border-cyan-300 text-center space-y-4 max-w-md mx-auto">
+                            <span className="bg-cyan-600 text-white px-3 py-1 rounded-full text-xs font-black">🎧 Nghe Âm Thanh Đoán Từ</span>
+                            <button onClick={() => audioQuizCorrect && speak(audioQuizCorrect.word)} className="w-20 h-20 bg-amber-400 text-indigo-950 rounded-full mx-auto flex items-center justify-center text-3xl shadow-lg animate-pulse">
+                              🔊
+                            </button>
+                            <p className="text-xs font-bold text-slate-600">Chọn hình ảnh tương ứng với từ vựng vừa nghe:</p>
+                            <div className="grid grid-cols-3 gap-3">
+                              {audioQuizOptions.map(opt => (
+                                <button key={opt.id} onClick={() => handleAudioQuizSelect(opt)} className="bg-white border-2 border-cyan-200 p-3 rounded-2xl flex flex-col items-center shadow hover:border-amber-400">
+                                  <span className="text-4xl">{opt.icon}</span>
+                                  <span className="text-[11px] font-bold text-slate-500 mt-1">???</span>
+                                </button>
+                              ))}
+                            </div>
+                            {audioQuizStatus === 'correct' && <p className="bg-emerald-500 text-white p-2 rounded-xl font-black text-xs">🎉 Chính xác! +5 Sao ⭐</p>}
+                            <div>
+                              <button onClick={() => initAudioQuiz(audioQuizIdx + 1)} className="bg-cyan-600 text-white font-black px-4 py-2 rounded-xl text-xs">Câu Tiếp Theo ➡️</button>
+                            </div>
+                          </div>
+                        )}
+
+                      </div>
+                    )}
+
+                    {/* TAB 5: REVIEW TEST AFTER EVERY 2 UNITS */}
+                    {activeTab === 'review_test' && (
+                      <div className="space-y-6 bg-gradient-to-b from-purple-50 to-indigo-50 p-6 rounded-3xl border-3 border-purple-300">
+                        <div className="border-b-2 border-purple-200 pb-3 flex justify-between items-center">
+                          <div>
+                            <span className="bg-purple-600 text-white px-3 py-1 rounded-full text-xs font-black">🎯 MINI GAME REVIEW TỔNG HỢP</span>
+                            <h3 className="text-xl font-black text-indigo-950 mt-1">Thử Thách Từ Vựng (Unit 1 ➡️ Unit {selectedTopicIdx + 1})</h3>
+                          </div>
+                          <div className="text-4xl">🏆</div>
+                        </div>
+
+                        {(() => {
+                          const coveredVocab = GLOBAL_SUCCESS_TOPICS.slice(0, selectedTopicIdx + 1).flatMap(t => t.vocab);
+                          const reviewQuizList = [
+                            {
+                              id: 'rq1',
+                              question: `Thử thách 1: Nghe âm thanh và chọn đúng hình ảnh`,
+                              target: coveredVocab[0],
+                              options: [coveredVocab[0], coveredVocab[1], coveredVocab[2]].filter(Boolean).sort(() => Math.random() - 0.5)
+                            },
+                            {
+                              id: 'rq2',
+                              question: `Thử thách 2: Hình ảnh "${coveredVocab[1]?.icon}" là từ vựng nào?`,
+                              correctWord: coveredVocab[1]?.word,
+                              options: [coveredVocab[1]?.word, coveredVocab[2]?.word, coveredVocab[3]?.word].filter(Boolean).sort(() => Math.random() - 0.5)
+                            },
+                            {
+                              id: 'rq3',
+                              question: `Thử thách 3: Từ "${coveredVocab[2]?.word}" nghĩa tiếng Việt là gì?`,
+                              correctVn: coveredVocab[2]?.vn,
+                              options: [coveredVocab[2]?.vn, coveredVocab[4]?.vn, coveredVocab[0]?.vn].filter(Boolean).sort(() => Math.random() - 0.5)
+                            }
+                          ];
+
+                          const handleReviewSubmit = () => {
+                            let score = 0;
+                            if (userAnswers['rq1'] === reviewQuizList[0].target.id) score++;
+                            if (userAnswers['rq2'] === reviewQuizList[1].correctWord) score++;
+                            if (userAnswers['rq3'] === reviewQuizList[2].correctVn) score++;
+                            setReviewScore(score);
+                            setReviewSubmitted(true);
+                            if (score >= 2) {
+                              addStars(15);
+                              triggerFireworks();
+                              speak("Wonderful! You passed the review test!");
+                            }
+                          };
+
+                          return (
+                            <div className="space-y-5">
+                              {!reviewSubmitted ? (
+                                <div className="space-y-5">
+                                  {reviewQuizList.map(q => (
+                                    <div key={q.id} className="bg-white p-4 rounded-2xl border border-purple-200 space-y-2">
+                                      <p className="font-black text-indigo-950 text-sm">{q.question}</p>
+                                      {q.id === 'rq1' && (
+                                        <button onClick={() => speak(q.target.word)} className="bg-amber-400 text-indigo-950 px-3 py-1 rounded-xl font-black text-xs">🔊 Bấm nghe từ</button>
+                                      )}
+                                      <div className="grid grid-cols-3 gap-2 pt-2">
+                                        {q.options.map((opt, i) => {
+                                          const val = q.id === 'rq1' ? opt.id : opt;
+                                          const isSel = userAnswers[q.id] === val;
+                                          return (
+                                            <button
+                                              key={i}
+                                              onClick={() => setUserAnswers(prev => ({ ...prev, [q.id]: val }))}
+                                              className={`p-3 rounded-xl border font-black text-xs flex flex-col items-center ${isSel ? 'bg-purple-600 text-white border-purple-800 shadow' : 'bg-slate-50 text-slate-700'}`}
+                                            >
+                                              {q.id === 'rq1' ? <span className="text-3xl">{opt.icon}</span> : <span>{opt}</span>}
+                                            </button>
+                                          );
+                                        })}
+                                      </div>
+                                    </div>
+                                  ))}
+                                  <div className="text-center pt-2">
+                                    <button onClick={handleReviewSubmit} className="bg-purple-600 text-white font-black px-8 py-3 rounded-2xl text-xs shadow-lg">Nộp Bài & Nhận +15 Sao 🏁</button>
+                                  </div>
+                                </div>
+                              ) : (
+                                <div className="bg-white p-6 rounded-3xl text-center space-y-3">
+                                  <div className="text-5xl">👑</div>
+                                  <h4 className="text-xl font-black text-indigo-950">Kết Quả Review: {reviewScore}/3 Câu Đúng</h4>
+                                  {reviewScore >= 2 && <p className="text-xs font-black text-amber-600 bg-amber-50 p-2 rounded-xl">🎉 Thưởng +15 Sao Vàng ⭐ thành công!</p>}
+                                  <button onClick={() => { setReviewSubmitted(false); setUserAnswers({}); }} className="bg-purple-600 text-white font-black px-5 py-2 rounded-xl text-xs">Làm Lại 🔄</button>
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })()}
+                      </div>
+                    )}
+
+                  </div>
+
+                </div>
+
+              </main>
+
+            </div>
+          );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html><script async src="/.netlify/scripts/ar" data-netlify-deploy-id="6aec007899e614b9d13c7af8" data-netlify-site-id="2ac67204-e2ba-49bd-8a0c-e30e202d6f96" data-agent-runner-id="6aebff4b5d7ad74de7559a19"></script>
+<script async src="/.netlify/scripts/hud?variant=public" data-nf-variant="public" data-netlify-site-id="2ac67204-e2ba-49bd-8a0c-e30e202d6f96" data-app-host="app.netlify.com" data-account-tier="free"></script>
