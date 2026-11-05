@@ -34,12 +34,12 @@
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-indigo-900 via-slate-900 to-sky-900 min-h-screen flex flex-col items-center justify-center p-0 sm:p-4 text-slate-800">
+<body class="bg-gradient-to-br from-indigo-950 via-slate-900 to-sky-950 min-h-screen flex flex-col items-center justify-center p-0 sm:p-4 text-slate-800">
 
     <!-- THANH ĐIỀU KHIỂN CHẾ ĐỘ XEM (PC / MOBILE FRAME) -->
     <div class="hidden sm:flex items-center gap-4 mb-4 bg-slate-800/80 backdrop-blur px-5 py-2.5 rounded-full shadow-lg border border-slate-700 text-white text-sm">
         <span class="font-semibold flex items-center gap-2">📱 Trình mô phỏng thiết bị:</span>
-        <button id="btnFrame" onclick="toggleFrame()" class="bg-sky-500 hover:bg-sky-600 text-white px-4 py-1.5 rounded-full font-medium transition shadow">
+        <button onclick="toggleFrame()" class="bg-sky-500 hover:bg-sky-600 text-white px-4 py-1.5 rounded-full font-medium transition shadow">
             Tắt/Bật Khung Điện Thoại
         </button>
     </div>
@@ -47,9 +47,9 @@
     <!-- KHUNG ĐIỆN THOẠI (PHONE CONTAINER) -->
     <div id="deviceWrapper" class="w-full sm:w-[414px] sm:h-[845px] bg-slate-950 sm:rounded-[50px] sm:p-3 sm:shadow-2xl sm:border-[8px] sm:border-slate-800 flex flex-col relative transition-all duration-300">
         
-        <!-- Tai thỏ / Dynamic Island (Chỉ hiển thị trên khung điện thoại) -->
-        <div class="hidden sm:flex absolute top-3 left-1/2 -translate-x-1/2 w-32 h-6 bg-slate-940 rounded-full z-50 items-center justify-center pointer-events-none">
-            <div class="w-3 h-3 bg-black rounded-full mr-2"></div>
+        <!-- Tai thỏ / Dynamic Island -->
+        <div class="hidden sm:flex absolute top-3 left-1/2 -translate-x-1/2 w-32 h-6 bg-black rounded-full z-50 items-center justify-center pointer-events-none">
+            <div class="w-3 h-3 bg-slate-800 rounded-full mr-2"></div>
             <div class="w-12 h-1.5 bg-slate-800 rounded-full"></div>
         </div>
 
@@ -59,7 +59,7 @@
         </div>
     </div>
 
-    <!-- SCRIPT ĐIỀU KHIỂN GIAO DIỆN KHUNG -->
+    <!-- SCRIPT ĐIỀU KHIỂN KHUNG -->
     <script>
         function toggleFrame() {
             const wrapper = document.getElementById('deviceWrapper');
@@ -75,8 +75,8 @@
 
     <!-- REACT APP CODE -->
     <script type="text/babel">
-        const { useState, useEffect, useRef } = React;
-        
+        const { useState, useEffect } = React;
+
         // --- GLOBAL SUCCESS GRADE 2 CURRICULUM TOPICS (OFFICIAL BOOK MAP) ---        
         const GLOBAL_SUCCESS_TOPICS = [          
           {            
@@ -90,24 +90,12 @@
               summary: "Phonics: p | Từ vựng: pasta, popcorn, pizza | Mẫu câu: The popcorn is yummy.",              
               keyGrammar: "The popcorn is yummy.",              
               sampleSentences: [                
-                { en: "The popcorn is yummy.", vn: "Bỏng ngô rất ngon.", audio: "The popcorn is yummy." },                
-                { en: "I like pizza and pasta.", vn: "Tớ thích pizza và mì ống.", audio: "I like pizza and pasta." }              ]            
-            },            
+                { en: "The popcorn is yummy.", vn: "Bỏng ngô rất ngon." },                
+                { en: "I like pizza and pasta.", vn: "Tớ thích pizza và mì ống." }              ]            },            
             vocab: [              
               { id: 'u1_1', word: 'Pasta', sound: '/ˈpæstə/', vn: 'Mì ống', icon: '🍝' },              
               { id: 'u1_2', word: 'Popcorn', sound: '/ˈpɒpkɔːrn/', vn: 'Bỏng ngô', icon: '🍿' },              
-              { id: 'u1_3', word: 'Pizza', sound: '/ˈpiːtsə/', vn: 'Bánh pizza', icon: '🍕' }            ],            
-            dialogue: {              
-              avatar: '🎂',              
-              title: 'Bữa Tiệc Sinh Nhật',              
-              steps: [                
-                {                  
-                  botText: "Do you like the popcorn?",                  
-                  botVn: "Bé có thích bỏng ngô không?",                  
-                  targetPhrase: "Yes the popcorn is yummy",                  
-                  targetVn: "Có, bỏng ngô rất ngon!"                }              ]            },            
-            sentenceQuiz: [              
-              { id: 'sq1', fullSentence: "The popcorn is yummy", vn: "Bỏng ngô rất ngon", words: ["The", "popcorn", "is", "yummy"] }            ]          },          
+              { id: 'u1_3', word: 'Pizza', sound: '/ˈpiːtsə/', vn: 'Bánh pizza', icon: '🍕' }            ]          },          
           {            
             id: 'gs_u2',            
             title: 'Unit 2: In The Backyard',            
@@ -119,30 +107,62 @@
               summary: "Phonics: k | Từ vựng: kite, bike, kitten | Mẫu câu: Is she flying a kite? - Yes, she is. / No, she isn't.",              
               keyGrammar: "Is she flying a kite? - Yes, she is. / No, she isn't.",              
               sampleSentences: [                
-                { en: "Is she flying a kite?", vn: "Cậu ấy đang thả diều phải không?", audio: "Is she flying a kite?" },                
-                { en: "Yes, she is. No, she isn't.", vn: "Đúng vậy. / Không phải.", audio: "Yes, she is. No, she isn't." }              ]            },            
+                { en: "Is she flying a kite?", vn: "Cậu ấy đang thả diều phải không?" },                
+                { en: "Yes, she is. No, she isn't.", vn: "Đúng vậy. / Không phải." }              ]            },            
             vocab: [              
               { id: 'u2_1', word: 'Kite', sound: '/kaɪt/', vn: 'Cái diều', icon: '🪁' },              
               { id: 'u2_2', word: 'Bike', sound: '/baɪk/', vn: 'Xe đạp', icon: '🚲' },              
-              { id: 'u2_3', word: 'Kitten', sound: '/ˈkɪtn/', vn: 'Mèo con', icon: '🐱' }            ],            
-            dialogue: {              
-              avatar: '🪁',              
-              title: 'Sân Sau Nhà',              
-              steps: [                
-                {                  
-                  botText: "Is she flying a kite?",                  
-                  botVn: "Cậu ấy đang thả diều phải không?",                  
-                  targetPhrase: "Yes she is",                  
-                  targetVn: "Vâng, đúng vậy!"                }              ]            },            
-            sentenceQuiz: [              
-              { id: 'sq2', fullSentence: "Is she flying a kite", vn: "Cậu ấy đang thả diều phải không", words: ["Is", "she", "flying", "a", "kite"] }            ]          }
+              { id: 'u2_3', word: 'Kitten', sound: '/ˈkɪtn/', vn: 'Mèo con', icon: '🐱' }            ]          },
+          {            
+            id: 'gs_u3',            
+            title: 'Unit 3: At The Seaside',            
+            subtitle: 'Bờ Biển Xanh Mát 🏖️',            
+            icon: '🌊',            
+            color: 'from-sky-400 to-blue-600',            
+            borderColor: 'border-sky-300',            
+            lesson: {              
+              summary: "Phonics: s | Từ vựng: sail, sand, sea | Mẫu câu: Let's look at the sea!",              
+              keyGrammar: "Let's look at the sea!",              
+              sampleSentences: [                
+                { en: "Let's look at the sea!", vn: "Hãy cùng nhìn ra biển nào!" }              ]            },            
+            vocab: [              
+              { id: 'u3_1', word: 'Sail', sound: '/seɪl/', vn: 'Cánh buồm', icon: '⛵' },              
+              { id: 'u3_2', word: 'Sand', sound: '/sænd/', vn: 'Bãi cát', icon: '🏖️' },              
+              { id: 'u3_3', word: 'Sea', sound: '/siː/', vn: 'Biển', icon: '🌊' }            ]          },
+          {            
+            id: 'gs_u4',            
+            title: 'Unit 4: In The Countryside',            
+            subtitle: 'Vùng Quê Yên Bình 🌾',            
+            icon: '🚜',            
+            color: 'from-amber-500 to-orange-600',            
+            borderColor: 'border-amber-300',            
+            lesson: {              
+              summary: "Phonics: r | Từ vựng: rainbow, river, road | Mẫu câu: What can you see? - I can see a rainbow.",              
+              keyGrammar: "What can you see? - I can see a rainbow.",              
+              sampleSentences: [                
+                { en: "What can you see?", vn: "Bé nhìn thấy gì?" },                
+                { en: "I can see a rainbow.", vn: "Tớ có thể nhìn thấy một chiếc cầu vồng." }              ]            },            
+            vocab: [              
+              { id: 'u4_1', word: 'Rainbow', sound: '/ˈreɪnbəʊ/', vn: 'Cầu vồng', icon: '🌈' },              
+              { id: 'u4_2', word: 'River', sound: '/ˈrɪvər/', vn: 'Dòng sông', icon: '🌊' },              
+              { id: 'u4_3', word: 'Road', sound: '/rəʊd/', vn: 'Con đường', icon: '🛣️' }            ]          }
         ];
 
-        // Component chính của ứng dụng
         function App() {
           const [currentView, setCurrentView] = useState('home');
           const [selectedUnit, setSelectedUnit] = useState(null);
-          const [score, setScore] = useState(10);
+          const [score, setScore] = useState(15);
+
+          // Hàm phát âm tiếng Anh chuẩn bằng Web Speech API
+          const speakText = (text) => {
+            if ('speechSynthesis' in window) {
+              window.speechSynthesis.cancel();
+              const utterance = new SpeechSynthesisUtterance(text);
+              utterance.lang = 'en-US';
+              utterance.rate = 0.9;
+              window.speechSynthesis.speak(utterance);
+            }
+          };
 
           return (
             <div className="flex flex-col min-h-full bg-sky-100 text-slate-800">
@@ -151,11 +171,11 @@
                 <div className="flex items-center gap-2">
                   <span className="text-2xl">🌟</span>
                   <div>
-                    <h1 className="font-bold text-lg leading-tight">Kids English Explorer</h1>
-                    <p className="text-xs text-sky-200">Global Success Grade 2</p>
+                    <h1 className="font-bold text-sm sm:text-base leading-tight">Kids English Explorer</h1>
+                    <p className="text-[10px] text-sky-200">Global Success Grade 2</p>
                   </div>
                 </div>
-                <div className="bg-amber-400 text-amber-950 font-bold px-3 py-1 rounded-full text-sm shadow flex items-center gap-1">
+                <div className="bg-amber-400 text-amber-950 font-bold px-3 py-1 rounded-full text-xs shadow flex items-center gap-1">
                   ⭐ <span>{score}</span>
                 </div>
               </header>
@@ -164,9 +184,9 @@
               <main className="flex-1 p-4 pb-20">
                 {currentView === 'home' && (
                   <div>
-                    <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white p-4 rounded-2xl shadow-md mb-6">
-                      <h2 className="text-xl font-black mb-1">Chào bé yêu! 🎒</h2>
-                      <p className="text-sm opacity-90">Hãy chọn Unit để bắt đầu khám phá tiếng Anh lớp 2 vui nhộn nhé!</p>
+                    <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white p-4 rounded-2xl shadow-md mb-5">
+                      <h2 className="text-lg font-black mb-1">Chào bé yêu! 🎒</h2>
+                      <p className="text-xs opacity-95">Chọn Unit để khám phá tiếng Anh lớp 2 nào!</p>
                     </div>
 
                     <div className="grid grid-cols-1 gap-3">
@@ -174,16 +194,16 @@
                         <div 
                           key={unit.id}
                           onClick={() => { setSelectedUnit(unit); setCurrentView('unit_detail'); }}
-                          className={`bg-white border-2 ${unit.borderColor} p-4 rounded-2xl shadow-sm hover:shadow-md transition cursor-pointer flex items-center gap-4`}
+                          className={`bg-white border-2 ${unit.borderColor} p-3.5 rounded-2xl shadow-sm hover:shadow-md transition cursor-pointer flex items-center gap-3.5`}
                         >
-                          <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${unit.color} flex items-center justify-center text-2xl shadow`}>
+                          <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${unit.color} flex items-center justify-center text-xl shadow`}>
                             {unit.icon}
                           </div>
                           <div className="flex-1">
-                            <h3 className="font-bold text-slate-800 text-base">{unit.title}</h3>
-                            <p className="text-xs text-slate-500">{unit.subtitle}</p>
+                            <h3 className="font-bold text-slate-800 text-sm">{unit.title}</h3>
+                            <p className="text-[11px] text-slate-500">{unit.subtitle}</p>
                           </div>
-                          <div className="text-slate-400 font-bold text-lg">›</div>
+                          <div className="text-slate-400 font-bold text-base">›</div>
                         </div>
                       ))}
                     </div>
@@ -194,24 +214,77 @@
                   <div>
                     <button 
                       onClick={() => setCurrentView('home')} 
-                      className="mb-4 text-sm font-bold text-indigo-600 flex items-center gap-1 hover:underline"
+                      className="mb-3 text-xs font-bold text-indigo-600 flex items-center gap-1 hover:underline"
                     >
                       ← Quay lại danh sách Unit
                     </button>
 
-                    <div className={`bg-gradient-to-br ${selectedUnit.color} text-white p-6 rounded-3xl shadow-lg mb-6`}>
-                      <div className="text-4xl mb-2">{selectedUnit.icon}</div>
-                      <h2 className="text-2xl font-black">{selectedUnit.title}</h2>
-                      <p className="text-sm opacity-90 mt-1">{selectedUnit.subtitle}</p>
+                    <div className={`bg-gradient-to-br ${selectedUnit.color} text-white p-5 rounded-3xl shadow-lg mb-4`}>
+                      <div className="text-3xl mb-1">{selectedUnit.icon}</div>
+                      <h2 className="text-xl font-black">{selectedUnit.title}</h2>
+                      <p className="text-xs opacity-90 mt-0.5">{selectedUnit.subtitle}</p>
                     </div>
 
-                    <div className="bg-white p-5 rounded-2xl shadow-sm mb-4">
-                      <h3 className="font-bold text-indigo-900 mb-2 flex items-center gap-2">📖 Tổng quan bài học</h3>
-                      <p className="text-sm text-slate-600 mb-3">{selectedUnit.lesson.summary}</p>
-                      <div className="bg-sky-50 p-3 rounded-xl border border-sky-200">
-                        <span className="text-xs font-bold text-sky-700 block uppercase">Mẫu câu trọng tâm:</span>
-                        <span className="text-sm font-semibold text-sky-900">{selectedUnit.lesson.keyGrammar}</span>
+                    <div className="bg-white p-4 rounded-2xl shadow-sm mb-4">
+                      <h3 className="font-bold text-indigo-900 text-sm mb-1.5 flex items-center gap-1.5">📖 Tổng quan bài học</h3>
+                      <p className="text-xs text-slate-600 mb-2.5">{selectedUnit.lesson.summary}</p>
+                      <div className="bg-sky-50 p-2.5 rounded-xl border border-sky-200">
+                        <span className="text-[10px] font-bold text-sky-700 block uppercase">Mẫu câu trọng tâm:</span>
+                        <div className="flex items-center justify-between mt-1">
+                          <span className="text-xs font-semibold text-sky-900">{selectedUnit.lesson.keyGrammar}</span>
+                          <button 
+                            onClick={() => speakText(selectedUnit.lesson.keyGrammar)}
+                            className="bg-sky-500 hover:bg-sky-600 text-white p-1.5 rounded-full text-xs shadow"
+                            title="Nghe phát âm"
+                          >
+                            🔊
+                          </button>
+                        </div>
                       </div>
                     </div>
 
-                    <div className="bg-white p-5 rounded-2xl shadow-sm
+                    <div className="bg-white p-4 rounded-2xl shadow-sm">
+                      <h3 className="font-bold text-indigo-900 text-sm mb-2.5 flex items-center gap-1.5">🔤 Từ vựng trong bài</h3>
+                      <div className="grid grid-cols-2 gap-2.5">
+                        {selectedUnit.vocab.map((v) => (
+                          <div 
+                            key={v.id} 
+                            onClick={() => speakText(v.word)}
+                            className="bg-slate-50 p-2.5 rounded-xl border border-slate-200 text-center cursor-pointer hover:border-indigo-400 transition"
+                          >
+                            <div className="text-2xl mb-0.5">{v.icon}</div>
+                            <div className="font-bold text-slate-800 text-sm">{v.word}</div>
+                            <div className="text-[10px] text-sky-600 font-mono">{v.sound}</div>
+                            <div className="text-[11px] text-slate-500 mt-0.5">{v.vn}</div>
+                            <span className="inline-block mt-1 text-[9px] bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full font-medium">🔊 Nghe</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </main>
+
+              {/* Bottom Navigation Bar */}
+              <nav className="bg-white border-t border-slate-200 px-6 py-2.5 flex justify-around items-center sticky bottom-0 z-40 shadow-lg">
+                <button onClick={() => setCurrentView('home')} className={`flex flex-col items-center gap-0.5 text-[11px] font-bold ${currentView === 'home' ? 'text-indigo-600' : 'text-slate-400'}`}>
+                  <span className="text-lg">🏠</span>
+                  <span>Trang chủ</span>
+                </button>
+                <button onClick={() => alert("Phần trò chơi và luyện tập đang được cập nhật!")} className="flex flex-col items-center gap-0.5 text-[11px] font-bold text-slate-400 hover:text-indigo-600">
+                  <span className="text-lg">🎮</span>
+                  <span>Trò chơi</span>
+                </button>
+                <button onClick={() => alert("Điểm thưởng: " + score + " sao!")} className="flex flex-col items-center gap-0.5 text-[11px] font-bold text-slate-400 hover:text-indigo-600">
+                  <span className="text-lg">⭐</span>
+                  <span>Hành trình</span>
+                </button>
+              </nav>
+            </div>
+          );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>
