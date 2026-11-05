@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Học Tiếng Anh Lớp 2 - Vui Nhộn</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- Babel để biên dịch JSX trực tiếp trên trình duyệt -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lucide-react@latest/dist/umd/lucide-react.js"></script>
+    <!-- Google Font: Nunito -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Nunito', sans-serif; }
+    </style>
+</head>
+<body class="bg-sky-50 min-h-screen text-slate-800">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { Star, Award, CheckCircle2, XCircle, ArrowRight, RotateCcw, BookOpen, Sparkles, Volume2 } = LucideReact;
+
+        // ==========================================
+        // KHO DỮ LIỆU ĐỘC LẬP (Từ vựng & Mẫu câu Tiếng Anh Lớp 2)
+        // Bạn có thể tùy ý chỉnh sửa, thêm bớt bài học ở đây
+        // ==========================================
+        const ENGLISH_LESSONS = [
+            {
+                id: 1,
+                title: "Unit 1: At the school yard",
+                description: "Làm quen với các từ vựng đồ dùng và hoạt động ở sân trường.",
+                questions: [
+                    {
+                        id: 1,
+                        question: "Từ nào chỉ cái cặp / ba lô trong tiếng Anh?",
+                        options: ["Pen", "Schoolbag", "Book", "Ruler"],
+                        correct: 1,
+                        explanation: "'Schoolbag' có nghĩa là cái cặp học sinh."
+                    },
+                    {
+                        id: 2,
+                        question: "Chọn từ đúng điền vào câu: 'This is my ...' (đây là cây bút mực của tôi)",
+                        options: ["pen", "eraser", "desk", "chair"],
+                        correct: 0,
+                        explanation: "'Pen' là bút mực."
+                    },
+                    {
+                        id: 3,
+                        question: "Đâu là từ chỉ cái thước kẻ?",
+                        options: ["Pencil", "Notebook", "Ruler", "Bag"],
+                        correct: 2,
+                        explanation: "'Ruler' là thước kẻ."
+                    }
+                ]
+            },
+            {
+                id: 2,
+                title: "Unit 2: In the classroom",
+                description: "Ôn tập các đồ vật quen thuộc bên trong lớp học.",
+                questions: [
+                    {
+                        id: 4,
+                        question: "Từ tiếng Anh nào có nghĩa là 'cái bàn học'?",
+                        options: ["Table / Desk", "Door", "Window", "Board"],
+                        correct: 0,
+                        explanation: "'Desk' hoặc 'Table' dùng để chỉ cái bàn."
+                    },
+                    {
+                        id: 5,
+                        question: "Chọn đáp án đúng cho câu chào buổi sáng: 'Good ...'",
+                        options: ["afternoon", "morning", "evening", "night"],
+                        correct: 1,
+                        explanation: "'Good morning' có nghĩa là chào buổi sáng."
+                    }
+                ]
+            }
+        ];
+
+        function App() {
+            const [selectedLesson, setSelectedLesson] = useState(null);
+            const [currentQIndex, setCurrentQIndex] = useState(0);
+            const [selectedOption, setSelectedOption] = useState(null);
+            const [isAnswered, setIsAnswered] = useState(false);
+            const [score, setScore] = useState(0);
+            const [showResult, setShowResult] = useState(false);
+            
+            // Lưu và đồng bộ sao thưởng với bộ nhớ trình duyệt (LocalStorage)
+            const [stars, setStars] = useState(() => {
+                return parseInt(localStorage.getItem('english_user_stars')) || 0;
+            });
+
+            const handleSelectAnswer = (index) => {
+                if (isAnswered) return;
+                setSelectedOption(index);
+                setIsAnswered(true);
+
+                const currentQ = selectedLesson.questions[currentQIndex];
+                if (index === currentQ.correct) {
+                    setScore(prev => prev + 1);
+                    const newStars = stars + 1;
+                    setStars(newStars);
+                    localStorage.setItem('english_user_stars', newStars);
+                }
+            };
+
+            const handleNextQuestion = () => {
+                if (currentQIndex < selectedLesson.questions.length - 1) {
+                    setCurrentQIndex(prev => prev + 1);
+                    setSelectedOption(null);
+                    setIsAnswered(false);
+                } else {
+                    setShowResult(true);
+                }
+            };
+
+            const resetQuiz = () => {
+                setSelectedLesson(null);
+                setCurrentQIndex(0);
+                setSelectedOption(null);
+                setIsAnswered(false);
+                setScore(0);
+                setShowResult(false);
+            };
+
+            // Hàm hỗ trợ phát âm mẫu (dùng tính năng đọc giọng nói có sẵn trên trình duyệt)
+            const speakText = (text) => {
+                if ('speechSynthesis' in window) {
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'en-US';
+                    window.speechSynthesis.speak(utterance);
+                }
+            };
+
+            return (
+                <div className="max-w-3xl mx-auto px-4 py-8">
+                    {/* Header ứng dụng */}
+                    <header className="flex justify-between items-center bg-white p-4 rounded-2xl shadow-sm mb-6 border border-sky-100">
+                        <div className="flex items-center space-x-3 cursor-pointer" onClick={resetQuiz}>
+                            <div className="bg-sky-500 text-white p-2.5 rounded-xl shadow-md">
+                                <Sparkles className="w-6 h-6" />
+                            </div>
+                            <div>
+                                <h1 className="text-xl font-extrabold text-sky-900">English Grade 2</h1>
+                                <p className="text-xs text-slate-500">Học tập độc lập - Không phụ thuộc Netlify</p>
+                            </div>
+                        </div>
+                        <div className="flex items-center space-x-2 bg-amber-50 border border-amber-200 px-4 py-2 rounded-2xl">
+                            <Star className="w-5 h-5 text-amber-500 fill-amber-400 animate-pulse" />
+                            <span className="font-bold text-amber-700">{stars} Sao</span>
+                        </div>
+                    </header>
+
+                    {/* Màn hình danh sách bài học */}
+                    {!selectedLesson ? (
+                        <div>
+                            <div className="bg-gradient-to-r from-sky-500 to-indigo-600 text-white p-6 rounded-3xl shadow-lg mb-8">
+                                <h2 className="text-2xl font-bold mb-2">Hello bé yêu! 👋</h2>
+                                <p className="text-sky-100 text-sm">Chọn một Unit bên dưới để luyện tập từ vựng và câu hỏi tiếng Anh nhé!</p>
+                            </div>
+
+                            <h3 className="text-lg font-bold text-slate-700 mb-4 flex items-center gap-2">
+                                <BookOpen className="w-5 h-5 text-sky-500" /> Danh sách bài học (Units)
+                            </h3>
+
+                            <div className="grid gap-4">
+                                {ENGLISH_LESSONS.map((lesson) => (
+                                    <div 
+                                        key={lesson.id}
+                                        onClick={() => {
+                                            setSelectedLesson(lesson);
+                                            setCurrentQIndex(0);
+                                            setScore(0);
+                                            setShowResult(false);
+                                        }}
+                                        className="bg-white p-5 rounded-2xl border border-sky-100 shadow-sm hover:shadow-md hover:border-sky-300 transition cursor-pointer flex justify-between items-center group"
+                                    >
+                                        <div>
+                                            <h4 className="font-bold text-lg text-sky-900 group-hover:text-sky-600 transition">{lesson.title}</h4>
+                                            <p className="text-sm text-slate-500 mt-1">{lesson.description}</p>
+                                            <span className="inline-block mt-3 text-xs bg-sky-50 text-sky-600 font-semibold px-2.5 py-1 rounded-lg">
+                                                {lesson.questions.length} câu hỏi trắc nghiệm
+                                            </span>
+                                        </div>
+                                        <div className="bg-sky-50 text-sky-600 p-3 rounded-xl group-hover:bg-sky-600 group-hover:text-white transition">
+                                            <ArrowRight className="w-5 h-5" />
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    ) : !showResult ? (
+                        /* Màn hình làm bài tập */
+                        <div className="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-sky-100">
+                            {/* Thanh tiến trình */}
+                            <div className="flex justify-between items-center mb-6 text-sm font-semibold text-slate-500">
+                                <span>Bài học: {selectedLesson.title}</span>
+                                <span className="bg-sky-50 text-sky-600 px-3 py-1 rounded-full">
+                                    Câu {currentQIndex + 1} / {selectedLesson.questions.length}
+                                </span>
+                            </div>
+
+                            {/* Câu hỏi kèm nút phát âm */}
+                            <div className="flex items-start justify-between gap-4 mb-6">
+                                <h3 className="text-xl font-bold text-slate-800 leading-snug">
+                                    {selectedLesson.questions[currentQIndex].question}
+                                </h3>
+                                <button 
+                                    onClick={() => speakText(selectedLesson.questions[currentQIndex].question)}
+                                    title="Nghe phát âm"
+                                    className="bg-sky-50 hover:bg-sky-100 text-sky-600 p-3 rounded-2xl transition shrink-0"
+                                >
+                                    <Volume2 className="w-5 h-5" />
+                                </button>
+                            </div>
+
+                            {/* Các lựa chọn đáp án */}
+                            <div className="space-y-3 mb-6">
+                                {selectedLesson.questions[currentQIndex].options.map((option, idx) => {
+                                    let btnStyle = "border-slate-200 bg-white hover:border-sky-300 text-slate-700";
+                                    const correctIndex = selectedLesson.questions[currentQIndex].correct;
+
+                                    if (isAnswered) {
+                                        if (idx === correctIndex) {
+                                            btnStyle = "border-emerald-500 bg-emerald-50 text-emerald-800 font-bold";
+                                        } else if (idx === selectedOption) {
+                                            btnStyle = "border-rose-500 bg-rose-50 text-rose-800";
+                                        } else {
+                                            btnStyle = "border-slate-200 opacity-50 bg-slate-50";
+                                        }
+                                    }
+
+                                    return (
+                                        <button
+                                            key={idx}
+                                            onClick={() => handleSelectAnswer(idx)}
+                                            disabled={isAnswered}
+                                            className={`w-full text-left p-4 rounded-2xl border-2 transition flex items-center justify-between text-base ${btnStyle}`}
+                                        >
+                                            <span>{option}</span>
+                                            {isAnswered && idx === correctIndex && <CheckCircle2 className="w-5 h-5 text-emerald-500" />}
+                                            {isAnswered && idx === selectedOption && idx !== correctIndex && <XCircle className="w-5 h-5 text-rose-500" />}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+
+                            {/* Hộp giải thích */}
+                            {isAnswered && (
+                                <div className="bg-sky-50/60 border border-sky-100 p-4 rounded-2xl mb-6">
+                                    <p className="text-sm text-sky-900 font-medium">
+                                        💡 <span className="font-bold">Giải thích:</span> {selectedLesson.questions[currentQIndex].explanation}
+                                    </p>
+                                </div>
+                            )}
+
+                            {/* Nút chuyển câu */}
+                            {isAnswered && (
+                                <button
+                                    onClick={handleNextQuestion}
+                                    className="w-full bg-sky-600 hover:bg-sky-700 text-white font-bold py-4 rounded-2xl shadow-lg shadow-sky-200 transition flex items-center justify-center gap-2"
+                                >
+                                    <span>{currentQIndex < selectedLesson.questions.length - 1 ? "Câu hỏi tiếp theo" : "Xem kết quả"}</span>
+                                    <ArrowRight className="w-5 h-5" />
+                                </button>
+                            )}
+                        </div>
+                    ) : (
+                        /* Màn hình tổng kết kết quả */
+                        <div className="bg-white p-8 rounded-3xl shadow-sm border border-sky-100 text-center">
+                            <div className="w-20 h-20 bg-amber-100 text-amber-500 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl shadow-inner">
+                                🏆
+                            </div>
+                            <h2 className="text-2xl font-extrabold text-sky-900 mb-2">Wonderful! Xuất sắc quá!</h2>
+                            <p className="text-slate-500 mb-6">Bé đã trả lời đúng <strong className="text-sky-600">{score}</strong> / {selectedLesson.questions.length} câu hỏi.</p>
+                            
+                            <div className="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-800 px-5 py-2.5 rounded-2xl font-bold mb-8">
+                                <Star className="w-5 h-5 text-amber-500 fill-amber-400" />
+                                +{score} Sao thưởng đã được cộng vào kho!
+                            </div>
+
+                            <div className="flex gap-3">
+                                <button
+                                    onClick={resetQuiz}
+                                    className="flex-1 bg-sky-600 hover:bg-sky-700 text-white font-bold py-3.5 rounded-2xl transition flex items-center justify-center gap-2"
+                                >
+                                    <RotateCcw className="w-5 h-5" /> Chọn bài học khác
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
